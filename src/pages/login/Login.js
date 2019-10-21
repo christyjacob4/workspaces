@@ -22,6 +22,20 @@ import google from "../../images/google.svg";
 // context
 import { useUserDispatch, loginUser } from "../../context/UserContext";
 
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAycsHzVVLE9SJxQX8JnrMIYMRpzyD0CG4",
+    authDomain: "web-tech-project-c67f5.firebaseapp.com",
+    databaseURL: "https://web-tech-project-c67f5.firebaseio.com",
+    projectId: "web-tech-project-c67f5",
+    storageBucket: "web-tech-project-c67f5.appspot.com",
+    messagingSenderId: "172927547768",
+    appId: "1:172927547768:web:f6a42e49b8e4442d32f08d"
+  };
+firebase.initializeApp(firebaseConfig);
+
 function Login(props) {
   var classes = useStyles();
 
@@ -35,6 +49,27 @@ function Login(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+
+  var uiConfig = {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'popup',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => loginUser(
+                        userDispatch,
+                        loginValue,
+                        passwordValue,
+                        props.history,
+                        setIsLoading,
+                        setError,
+                      )
+    }
+  };
 
   return (
     <Grid container className={classes.container}>
@@ -59,21 +94,22 @@ function Login(props) {
               <Typography variant="h1" className={classes.greeting}>
                 Good Morning, User
               </Typography>
-              <Button size="large" className={classes.googleButton}>
+
+              {/* <Button size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
                 &nbsp;Sign in with Google
-              </Button>
-              <div className={classes.formDividerContainer}>
+              </Button> */}
+              {/* <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
                 <Typography className={classes.formDividerWord}>or</Typography>
                 <div className={classes.formDivider} />
-              </div>
+              </div> */}
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
                   Something is wrong with your login or password :(
                 </Typography>
               </Fade>
-              <TextField
+              {/* <TextField
                 id="email"
                 InputProps={{
                   classes: {
@@ -102,40 +138,15 @@ function Login(props) {
                 placeholder="Password"
                 type="password"
                 fullWidth
-              />
+              /> */}
               <div className={classes.formButtons}>
                 {isLoading ? (
-                  <CircularProgress size={26} className={classes.loginLoader} />
+                  <CircularProgress size={40}/>
                 ) : (
-                  <Button
-                    disabled={
-                      loginValue.length === 0 || passwordValue.length === 0
-                    }
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Login
-                  </Button>
+
+                   <StyledFirebaseAuth uiCallback={ui => ui.disableAutoSignIn()} uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
                 )}
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.forgetButton}
-                >
-                  Forget Password
-                </Button>
-              </div>
+                </div>
             </React.Fragment>
           )}
           {activeTabId === 1 && (
