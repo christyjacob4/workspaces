@@ -27,6 +27,8 @@ import firebase from 'firebase';
 
 import Typist from 'react-typist';
 
+import { gapi } from 'gapi-script';
+
 const firebaseConfig = {
     apiKey: "AIzaSyAycsHzVVLE9SJxQX8JnrMIYMRpzyD0CG4",
     authDomain: "web-tech-project-c67f5.firebaseapp.com",
@@ -46,41 +48,87 @@ const firebaseConfig = {
     ]
   };
 
-//   firebase.auth().onAuthStateChanged(function(user) {
-//   console.log(user)
-//   // Make sure there is a valid user object
-//   if (user) {
-//     var script = document.createElement("script");
-//     script.type = "text/javascript";
-//     script.src = "https://apis.google.com/js/api.js";
-//     // Once the Google API Client is loaded, you can run your code
-//     script.onload = function(e) {
-//       // Initialize the Google API Client with the config object
-//       gapi.client
-//         .init({
-//           apiKey: config.apiKey,
-//           clientId: config.clientID,
-//           discoveryDocs: config.discoveryDocs,
-//           scope: config.scopes.join(" ")
-//         })
-//         // Loading is finished, so start the app
-//         .then(function() {
-//           // Make sure the Google API Client is properly signed in
-//           if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-//             startApp(user);
-//           } else {
-//             firebase.auth().signOut(); // Something went wrong, sign out
-//           }
-//         });
-//     };
-//     // Add to the document
-//     document.getElementsByTagName("head")[0].appendChild(script);
-//   }
-// });
+  firebase.initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig);
+
+
+
 
 function Login(props) {
+
+    firebase.auth().onAuthStateChanged(function(user) {
+    console.log(user)
+    // Make sure there is a valid user object
+    if (user) {
+            var gapiConfig = {
+                apiKey: firebaseConfig.apiKey,
+                clientId: firebaseConfig.clientID,
+                discoveryDocs: firebaseConfig.discoveryDocs,
+                scope: firebaseConfig.scopes.join(" ")
+            };
+
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "https://apis.google.com/js/api.js";
+            // Once the Google API Client is loaded, you can run your code
+            script.onload = function(e) {
+
+                gapi.load('client:auth2', _ => {
+                console.log('loaded GAPI')
+                // gapi.client.calendar.events.list({
+                //                 calendarId: "primary",
+                //                 timeMin: new Date().toISOString(),
+                //                 showDeleted: false,
+                //                 singleEvents: true,
+                //                 maxResults: 10,
+                //                 orderBy: "startTime"
+                //                 }).then(function(response) {
+                //                 console.log(response);
+                //             });
+
+                function initGAPI(){
+                    if (!gapi || !gapi.client){ return ('no gapi.client') }
+                    gapi.client.init(gapiConfig)
+                    .then(_ => {
+                            console.log('initialised GAPI');
+                            window.GAPIiniOK = true;
+                            // gapi.client.calendar.events.list({
+                            //     calendarId: "primary",
+                            //     timeMin: new Date().toISOString(),
+                            //     showDeleted: false,
+                            //     singleEvents: true,
+                            //     maxResults: 10,
+                            //     orderBy: "startTime"
+                            //     }).then(function(response) {
+                            //     console.log(response);
+                            // });
+                            console.log(gapi.client.calendar);
+                            gapi.auth2.getAuthInstance().isSignedIn.listen(_ => {console.log("Here")});
+
+
+
+                    }).catch(error => {
+                        console.log('authenticationError', {error, note: 'error during gapi initialisation'});
+                        // return reject(error)
+                        // setTimeout(initGAPI, 10);
+                    });
+                }
+                setTimeout(initGAPI, 10);
+
+
+                });
+            }
+
+            document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
+        // Add to the document
+        // document.getElementsByTagName("head")[0].appendChild(script);
+
+
+
+});
+
   var classes = useStyles();
 
   // global
@@ -110,6 +158,8 @@ function Login(props) {
     callbacks: {
       // Avoid redirects after sign-in.
       signInSuccessWithAuthResult: () => loginUser(
+                        gapi,
+                        firebaseConfig,
                         userDispatch,
                         loginValue,
                         passwordValue,
@@ -120,10 +170,7 @@ function Login(props) {
     }
   };
 
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({
-    prompt: 'select_account'
-    });
+
 
   return (
     <Grid container className={classes.container}>

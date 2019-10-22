@@ -34,7 +34,10 @@ import { Typography } from "../../components/Wrappers";
 import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
-import Competition from "./components/Competition/Competition";
+import Competition from "./components/Competition/Competition"
+
+import firebase from "firebase";
+import {gapi} from "gapi-script";
 
 const mainChartData = getMainChartData();
 const PieChartData = [
@@ -50,6 +53,8 @@ export default function Dashboard(props) {
 
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
+
+
 
   return (
     <>

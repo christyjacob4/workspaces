@@ -1,5 +1,7 @@
 import React from "react";
-import firebase from "firebase"
+import firebase from "firebase";
+// import { gapi } from "gapi-script";
+
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
@@ -49,18 +51,75 @@ export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
 
 // ###########################################################
 
-function loginUser(dispatch, login, password, history, setIsLoading, setError) {
+function loginUser(gapi, firebaseConfig, dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
 
 //   if (!!login && !!password) {
     setTimeout(() => {
-      localStorage.setItem("id_token", "1");
-      dispatch({ type: "LOGIN_SUCCESS" });
-      setError(null);
-      setIsLoading(false);
+        localStorage.setItem("id_token", "1");
+        dispatch({ type: "LOGIN_SUCCESS" });
+        setError(null);
+        setIsLoading(false);
 
-      history.push("/app/dashboard");
+        // var gapiConfig = {
+        //     apiKey: firebaseConfig.apiKey,
+        //     clientId: firebaseConfig.clientID,
+        //     discoveryDocs: firebaseConfig.discoveryDocs,
+        //     scope: firebaseConfig.scopes.join(" ")
+        //     };
+
+        //     var script = document.createElement("script");
+        //     script.type = "text/javascript";
+        //     script.src = "https://apis.google.com/js/api.js";
+        //     // Once the Google API Client is loaded, you can run your code
+        //     script.onload = function(e) {
+
+        //         window.gapi.load('client:auth2', _ => {
+        //         console.log('loaded GAPI')
+        //         // gapi.client.calendar.events.list({
+        //         //                 calendarId: "primary",
+        //         //                 timeMin: new Date().toISOString(),
+        //         //                 showDeleted: false,
+        //         //                 singleEvents: true,
+        //         //                 maxResults: 10,
+        //         //                 orderBy: "startTime"
+        //         //                 }).then(function(response) {
+        //         //                 console.log(response);
+        //         //             });
+        //         function initGAPI(){
+        //             if (!window.gapi || !window.gapi.client){ console.log('no gapi.client') }
+        //             window.gapi.client.init(gapiConfig)
+        //             .then(_ => {
+        //                     console.log('initialised GAPI');
+        //                     window.GAPIiniOK = true;
+        //                     gapi.client.calendar.events.list({
+        //                         calendarId: "primary",
+        //                         timeMin: new Date().toISOString(),
+        //                         showDeleted: false,
+        //                         singleEvents: true,
+        //                         maxResults: 10,
+        //                         orderBy: "startTime"
+        //                         }).then(function(response) {
+        //                         console.log(response);
+        //                     });
+
+        //                     history.push("/app/dashboard");
+
+        //             }).catch(error => {
+        //                 console.log('authenticationError', {error, note: 'error during gapi initialisation'});
+        //                 // return reject(error)
+        //             });
+        //         }
+        //         setTimeout(initGAPI, 10);
+
+
+        //         });
+        //     }
+
+        //     document.getElementsByTagName("head")[0].appendChild(script);
+        history.push("/app/dashboard");
+
 
     }, 2000);
 //   } else {
