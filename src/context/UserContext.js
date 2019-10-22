@@ -130,9 +130,9 @@ function loginUser(gapi, firebaseConfig, dispatch, login, password, history, set
 }
 
 function signOut(dispatch, history) {
-  firebase.auth().onAuthStateChanged(
-        (user) => console.log("changed")
-    );
+//   firebase.auth().onAuthStateChanged(
+//         (user) => console.log("changed")
+//     );
   firebase.auth().signOut();
 
   console.log("In signout");
