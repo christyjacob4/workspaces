@@ -40,7 +40,6 @@ import Competition from "./components/Competition/Competition"
 
 import firebase from "firebase";
 import {gapi} from "gapi-script";
-import Competition from "./components/Competition/Competition";
 
 const mainChartData = getMainChartData();
 const PieChartData = [

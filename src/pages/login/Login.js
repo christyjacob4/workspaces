@@ -151,7 +151,7 @@ function Login(props) {
         customParameters: {
         // Forces account selection even when one account
         // is available.
-        // prompt: 'select_account'
+        prompt: 'select_account'
       },
       scopes: firebaseConfig.scopes}
     ],
