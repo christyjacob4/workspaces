@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "firebase": "^7.2.1",
     "font-awesome": "^4.7.0",
+    "gapi-script": "^0.0.5",
     "googleapis": "^44.0.0",
     "mui-datatables": "^2.6.4",
     "react": "^16.8.6",
