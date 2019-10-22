@@ -7,6 +7,12 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
+<<<<<<< HEAD
+=======
+// Tables
+import MUIDataTable from "mui-datatables";
+
+>>>>>>> f7d7dea0f774869ca1be1cb31d44926828629d00
 import { useTheme } from "@material-ui/styles";
 import {
   ResponsiveContainer,

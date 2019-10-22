@@ -25,6 +25,8 @@ import { useUserDispatch, loginUser } from "../../context/UserContext";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
+import Typist from 'react-typist';
+
 const firebaseConfig = {
     apiKey: "AIzaSyAycsHzVVLE9SJxQX8JnrMIYMRpzyD0CG4",
     authDomain: "web-tech-project-c67f5.firebaseapp.com",
@@ -32,8 +34,50 @@ const firebaseConfig = {
     projectId: "web-tech-project-c67f5",
     storageBucket: "web-tech-project-c67f5.appspot.com",
     messagingSenderId: "172927547768",
-    appId: "1:172927547768:web:f6a42e49b8e4442d32f08d"
+    appId: "1:172927547768:web:f6a42e49b8e4442d32f08d",
+
+    clientId: "123772629281-4dn3c4lia8ee5n2u97eqfpepug34k1o4.apps.googleusercontent.com",
+
+    scopes: [
+             "email",
+             "profile",
+             "https://www.googleapis.com/auth/calendar",
+             "https://mail.google.com/	"
+    ]
   };
+
+//   firebase.auth().onAuthStateChanged(function(user) {
+//   console.log(user)
+//   // Make sure there is a valid user object
+//   if (user) {
+//     var script = document.createElement("script");
+//     script.type = "text/javascript";
+//     script.src = "https://apis.google.com/js/api.js";
+//     // Once the Google API Client is loaded, you can run your code
+//     script.onload = function(e) {
+//       // Initialize the Google API Client with the config object
+//       gapi.client
+//         .init({
+//           apiKey: config.apiKey,
+//           clientId: config.clientID,
+//           discoveryDocs: config.discoveryDocs,
+//           scope: config.scopes.join(" ")
+//         })
+//         // Loading is finished, so start the app
+//         .then(function() {
+//           // Make sure the Google API Client is properly signed in
+//           if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+//             startApp(user);
+//           } else {
+//             firebase.auth().signOut(); // Something went wrong, sign out
+//           }
+//         });
+//     };
+//     // Add to the document
+//     document.getElementsByTagName("head")[0].appendChild(script);
+//   }
+// });
+
 firebase.initializeApp(firebaseConfig);
 
 function Login(props) {
@@ -50,13 +94,18 @@ function Login(props) {
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
 
-  var uiConfig = {
+    var uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: 'popup',
     // We will display Google and Facebook as auth providers.
     signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-
+      {provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        customParameters: {
+        // Forces account selection even when one account
+        // is available.
+        prompt: 'select_account'
+      },
+      scopes: firebaseConfig.scopes}
     ],
     callbacks: {
       // Avoid redirects after sign-in.
@@ -71,15 +120,25 @@ function Login(props) {
     }
   };
 
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({
+    prompt: 'select_account'
+    });
+
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
-        <img src={logo} alt="logo" className={classes.logotypeImage} />
-        <Typography className={classes.logotypeText}>Material Admin</Typography>
+        <img src="https://images.squarespace-cdn.com/content/v1/5b497083cc8fedc96311a4dd/1531619400438-FJNK7IIP1C3BFFPD5SYK/ke17ZwdGBToddI8pDm48kBPw4N13dNaFqvN1wFuK0BxZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7aKHqy_Pq5SZUkyxONRRLX6S0It3pZkr2piwbyn7VQezxUZSLJSadZMfV9Js6cjlCQ/Workspace+Logo+%28RGB%2C+Mark%2C+Orange%29.png" alt="logo" className={classes.logotypeImage} />
+        {/* <Typography className={classes.logotypeText}>Workspaces</Typography> */}
+        {/* <Typist.Delay ms={2000} /> */}
+        <Typist className={classes.TypistText} avgTypingDelay={80}
+          startDelay={1000} cursor={{show:false}}>
+        Workspaces
+      </Typist>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
-          <Tabs
+          {/* <Tabs
             value={activeTabId}
             onChange={(e, id) => setActiveTabId(id)}
             indicatorColor="primary"
@@ -88,11 +147,11 @@ function Login(props) {
           >
             <Tab label="Login" classes={{ root: classes.tab }} />
             <Tab label="New User" classes={{ root: classes.tab }} />
-          </Tabs>
-          {activeTabId === 0 && (
+          </Tabs> */}
+          {/* {activeTabId === 0 && ( */}
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-                Good Morning, User
+                Sign in to Start Working
               </Typography>
 
               {/* <Button size="large" className={classes.googleButton}>
@@ -144,12 +203,12 @@ function Login(props) {
                   <CircularProgress size={40}/>
                 ) : (
 
-                   <StyledFirebaseAuth uiCallback={ui => ui.disableAutoSignIn()} uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+                   <StyledFirebaseAuth some="hi" uiCallback={ui => ui.disableAutoSignIn()} uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
                 )}
                 </div>
             </React.Fragment>
-          )}
-          {activeTabId === 1 && (
+          {/* )} */}
+          {/* {activeTabId === 1 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
                 Welcome!
@@ -253,14 +312,15 @@ function Login(props) {
                 &nbsp;Sign in with Google
               </Button>
             </React.Fragment>
-          )}
+          )} */}
         </div>
-        <Typography color="primary" className={classes.copyright}>
+        {/* <Typography color="primary" className={classes.copyright}>
           © 2014-2019 Flatlogic, LLC. All rights reserved.
-        </Typography>
+        </Typography> */}
       </div>
     </Grid>
   );
 }
 
+// export {firebase};
 export default withRouter(Login);
