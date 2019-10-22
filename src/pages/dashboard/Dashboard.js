@@ -7,7 +7,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-// Tables 
+// Tables
 import MUIDataTable from "mui-datatables";
 
 import { useTheme } from "@material-ui/styles";
@@ -50,7 +50,7 @@ const PieChartData = [
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
- 
+
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
 
@@ -298,7 +298,7 @@ export default function Dashboard(props) {
             </Grid>
           </Widget>
         </Grid>
-        
+
         <Grid item xs={12}>
           <Competition/>
         </Grid>

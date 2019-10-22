@@ -25,6 +25,8 @@ import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification";
 import UserAvatar from "../UserAvatar";
 
+import firebase from "firebase";
+
 const messages = [
   {
     id: 0,
@@ -103,7 +105,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           />
         )}
       </IconButton>
-      <Typography variant="h6" weight="medium" className={classes.logotype}>React Material Admin</Typography>
+      <Typography variant="h6" weight="medium" className={classes.logotype}>Workspace Home</Typography>
       <div className={classes.grow} />
       <div
         className={classNames(classes.search, {
@@ -247,7 +249,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
       >
         <div className={classes.profileMenuUser}>
           <Typography variant="h4" weight="medium">
-            John Smith
+            {firebase.auth().currentUser.displayName}
           </Typography>
           <Typography
             className={classes.profileMenuLink}

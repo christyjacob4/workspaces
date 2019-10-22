@@ -61,6 +61,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
       setIsLoading(false);
 
       history.push("/app/dashboard");
+
     }, 2000);
 //   } else {
 //     dispatch({ type: "LOGIN_FAILURE" });
@@ -70,7 +71,12 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 }
 
 function signOut(dispatch, history) {
-  firebase.auth().signOut()
+  firebase.auth().onAuthStateChanged(
+        (user) => console.log("changed")
+    );
+  firebase.auth().signOut();
+
+  console.log("In signout");
   localStorage.removeItem("id_token");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");

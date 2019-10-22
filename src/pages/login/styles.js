@@ -12,7 +12,7 @@ export default makeStyles(theme => ({
     left: 0,
   },
   logotypeContainer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#2b2b2b",
     width: "60%",
     height: "100%",
     display: "flex",
@@ -28,7 +28,7 @@ export default makeStyles(theme => ({
   },
   logotypeImage: {
     width: 165,
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(5),
   },
   logotypeText: {
     color: "white",
@@ -37,7 +37,16 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("md")]: {
       fontSize: 48,
     },
+    padding: theme.spacing(2)
   },
+  TypistText: {
+    color: "white",
+    fontFamily: "Purisa",
+    fontWeight: 300,
+    fontSize: 60,
+
+  },
+
   formContainer: {
     width: "40%",
     height: "100%",

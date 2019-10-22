@@ -35,6 +35,8 @@ import {
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
 
+import firebase from "firebase";
+
 const messages = [
   {
     id: 0,
@@ -136,7 +138,7 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          React Material Admin
+          Workspace Home
         </Typography>
         <div className={classes.grow} />
         <div
@@ -287,15 +289,15 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              {firebase.auth().currentUser.displayName}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
               component="a"
               color="primary"
-              href="https://flatlogic.com"
+            //   href="https://flatlogic.com"
             >
-              Flalogic.com
+              {firebase.auth().currentUser.email}
             </Typography>
           </div>
           <MenuItem
