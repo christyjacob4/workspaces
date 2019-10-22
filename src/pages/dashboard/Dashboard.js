@@ -7,8 +7,6 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-// Tables
-import MUIDataTable from "mui-datatables";
 
 import { useTheme } from "@material-ui/styles";
 import {
