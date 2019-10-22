@@ -44,7 +44,7 @@ const firebaseConfig = {
              "email",
              "profile",
              "https://www.googleapis.com/auth/calendar",
-             "https://mail.google.com/	"
+             "https://mail.google.com/"
     ]
   };
 
@@ -55,6 +55,18 @@ const firebaseConfig = {
 
 
 function Login(props) {
+     var classes = useStyles();
+
+  // global
+  var userDispatch = useUserDispatch();
+
+  // local
+  var [isLoading, setIsLoading] = useState(false);
+  var [error, setError] = useState(null);
+  var [activeTabId, setActiveTabId] = useState(0);
+  var [nameValue, setNameValue] = useState("");
+  var [loginValue, setLoginValue] = useState("");
+  var [passwordValue, setPasswordValue] = useState("");
 
     firebase.auth().onAuthStateChanged(function(user) {
     console.log(user)
@@ -121,6 +133,16 @@ function Login(props) {
 
             document.getElementsByTagName("head")[0].appendChild(script);
     }
+    else
+    {
+        // firebase.auth().signOut();
+
+        // console.log("In signout");
+        // localStorage.removeItem("id_token");
+        // userDispatch({ type: "SIGN_OUT_SUCCESS" });
+        // props.history.push("/login");
+    }
+
 
         // Add to the document
         // document.getElementsByTagName("head")[0].appendChild(script);
@@ -129,18 +151,23 @@ function Login(props) {
 
 });
 
-  var classes = useStyles();
-
-  // global
-  var userDispatch = useUserDispatch();
-
-  // local
-  var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(null);
-  var [activeTabId, setActiveTabId] = useState(0);
-  var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("");
-  var [passwordValue, setPasswordValue] = useState("");
+// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+//   .then(function() {
+//     // Existing and future Auth states are now persisted in the current
+//     // session only. Closing the window would clear any existing state even
+//     // if a user forgets to sign out.
+//     // ...
+//     // New sign-in will be persisted with session persistence.
+//     // return firebase.auth().signInWithEmailAndPassword(email, password);
+//     console.log("Changed Persistence");
+//   })
+//   .catch(function(error) {
+//     // Handle Errors here.
+//     var errorCode = error.code;
+//     var errorMessage = error.message;
+//     console.log(errorCode);
+//     console.log(errorMessage);
+//   });
 
     var uiConfig = {
     // Popup signin flow rather than redirect flow.
@@ -250,7 +277,7 @@ function Login(props) {
                   <CircularProgress size={40}/>
                 ) : (
 
-                   <StyledFirebaseAuth some="hi" uiCallback={ui => ui.disableAutoSignIn()} uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+                   <StyledFirebaseAuth uiCallback={ui => ui.disableAutoSignIn()} uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
                 )}
                 </div>
             </React.Fragment>

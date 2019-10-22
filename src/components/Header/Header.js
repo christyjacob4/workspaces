@@ -106,6 +106,19 @@ export default function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
 
+//   console.log(localStorage.getItem("firebaseui::rememberedAccounts"));
+if(localStorage.getItem("id_token")!=="1")
+{
+    signOut(userDispatch, props.history);
+}
+else
+{
+    var info = JSON.parse(localStorage.getItem("firebaseui::rememberedAccounts"))[0];
+    console.log(info);
+    var name = info['displayName'];
+    var email = info['email'];
+}
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -289,7 +302,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {firebase.auth().currentUser.displayName}
+              {name}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -297,7 +310,8 @@ export default function Header(props) {
               color="primary"
             //   href="https://flatlogic.com"
             >
-              {firebase.auth().currentUser.email}
+              {/* {firebase.auth().currentUser.email} */}
+              {email}
             </Typography>
           </div>
           <MenuItem
