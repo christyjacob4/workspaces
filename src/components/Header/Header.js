@@ -33,9 +33,7 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-import { useUserDispatch, signOut } from "../../context/UserContext";
-
-import firebase from "firebase";
+// import { useUserDispatch, signOut } from "../../context/UserContext";
 
 const messages = [
   {
@@ -96,7 +94,7 @@ export default function Header(props) {
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
-  var userDispatch = useUserDispatch();
+  // var userDispatch = useUserDispatch();
 
   // local
   var [mailMenu, setMailMenu] = useState(null);
@@ -106,18 +104,18 @@ export default function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
 
-//   console.log(localStorage.getItem("firebaseui::rememberedAccounts"));
-if(localStorage.getItem("id_token")!=="1")
-{
-    signOut(userDispatch, props.history);
-}
-else
-{
-    var info = JSON.parse(localStorage.getItem("firebaseui::rememberedAccounts"))[0];
-    console.log(info);
-    var name = info['displayName'];
-    var email = info['email'];
-}
+// //   console.log(localStorage.getItem("firebaseui::rememberedAccounts"));
+// if(localStorage.getItem("id_token")!=="1")
+// {
+//     signOut(userDispatch, props.history);
+// }
+// else
+// {
+//     var info = JSON.parse(localStorage.getItem("firebaseui::rememberedAccounts"))[0];
+//     console.log(info);
+//     var name = info['displayName'];
+//     var email = info['email'];
+// }
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -302,7 +300,7 @@ else
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {name}
+              {/* {name} */}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -311,7 +309,7 @@ else
             //   href="https://flatlogic.com"
             >
               {/* {firebase.auth().currentUser.email} */}
-              {email}
+              {/* {email} */}
             </Typography>
           </div>
           <MenuItem
@@ -342,7 +340,7 @@ else
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => signOut(userDispatch, props.history)}
+              // onClick={() => signOut(userDispatch, props.history)}
             >
               Sign Out
             </Typography>

@@ -7,21 +7,23 @@ export const config = {
 };
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyAycsHzVVLE9SJxQX8JnrMIYMRpzyD0CG4",
-  authDomain: "web-tech-project-c67f5.firebaseapp.com",
-  databaseURL: "https://web-tech-project-c67f5.firebaseio.com",
-  projectId: "web-tech-project-c67f5",
-  storageBucket: "web-tech-project-c67f5.appspot.com",
-  messagingSenderId: "172927547768",
-  appId: "1:172927547768:web:f6a42e49b8e4442d32f08d",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_ID,
 
-  clientId:
-    "123772629281-4dn3c4lia8ee5n2u97eqfpepug34k1o4.apps.googleusercontent.com",
+//   clientId:
+//     "123772629281-4dn3c4lia8ee5n2u97eqfpepug34k1o4.apps.googleusercontent.com",
 
-  scopes: [
-    "email",
-    "profile",
-    "https://www.googleapis.com/auth/calendar",
-    "https://mail.google.com/	",
-  ],
+//   scopes: [
+//     "email",
+//     "profile",
+//     "https://www.googleapis.com/auth/calendar",
+//     "https://mail.google.com/	",
+//   ],
 };
+
+console.log("[INFO] FIREBASE CONFIG", firebaseConfig)

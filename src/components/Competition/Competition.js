@@ -5,10 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
 
 // Components
-import { Button } from "../../../../components/Wrappers";
+import { Button } from "../Wrappers";
 
 // config
-import { config } from "../../../../helpers/config";
+import {config} from "../../helpers/config";
 
 // function secondsToHuman(seconds) {
 //   seconds = Number(seconds);
@@ -166,9 +166,10 @@ export default function Competition() {
       options,
     );
     let parsed = await response.json();
-    parsed.objects =  parsed.objects.map((obj)=>(
-      {...obj, resource : obj.resource.name}
-    ))
+    parsed.objects = parsed.objects.map(obj => ({
+      ...obj,
+      resource: obj.resource.name,
+    }));
     console.log(parsed);
     setCompetitions(parsed);
     setLoaded(true);

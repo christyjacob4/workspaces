@@ -7,16 +7,17 @@ import Themes from "./themes";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
-import { UserProvider } from "./context/UserContext";
+
+import Firebase, { FirebaseContext } from './components/Firebase';
 
 ReactDOM.render(
   <LayoutProvider>
-    <UserProvider>
+    <FirebaseContext.Provider value={new Firebase()}>
       <ThemeProvider theme={Themes.default}>
         <CssBaseline />
         <App />
       </ThemeProvider>
-    </UserProvider>
+    </FirebaseContext.Provider>
   </LayoutProvider>,
   document.getElementById("root"),
 );
