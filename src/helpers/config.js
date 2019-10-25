@@ -15,15 +15,16 @@ export const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_ID,
 
-//   clientId:
-//     "123772629281-4dn3c4lia8ee5n2u97eqfpepug34k1o4.apps.googleusercontent.com",
+  //   clientId:
+  //     "123772629281-4dn3c4lia8ee5n2u97eqfpepug34k1o4.apps.googleusercontent.com",
 
-//   scopes: [
-//     "email",
-//     "profile",
-//     "https://www.googleapis.com/auth/calendar",
-//     "https://mail.google.com/	",
-//   ],
+  //   scopes: [
+  //     "email",
+  //     "profile",
+  //     "https://www.googleapis.com/auth/calendar",
+  //     "https://mail.google.com/	",
+  //   ],
 };
 
-console.log("[INFO] FIREBASE CONFIG", firebaseConfig)
+
+console.log("[INFO] FIREBASE CONFIG", firebaseConfig);

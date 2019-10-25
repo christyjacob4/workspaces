@@ -21,6 +21,7 @@ import google from "../../images/google.svg";
 
 import Typist from "react-typist";
 
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { withFirebase } from "../Firebase";
 
 function Login(props) {
@@ -38,6 +39,14 @@ function Login(props) {
 
   console.log("[INFO] IN LOGIN COMPONENT");
 
+  const successFunc = () => {
+    setIsLoading(false);
+    setError(false);
+    setSuccess(true);
+    setMessage("Login Successful");
+  };
+
+
   const login = () => {
     console.log("[INFO] LOG IN");
     setIsLoading(true);
@@ -47,10 +56,7 @@ function Login(props) {
     props.firebase
       .signIn(emailValue, passwordValue)
       .then(authUser => {
-        setIsLoading(false);
-        setError(false);
-        setSuccess(true);
-        setMessage("Login Successful");
+        successFunc();
       })
       .catch(err => {
         setIsLoading(false);
@@ -64,8 +70,6 @@ function Login(props) {
   const signUp = () => {
     console.log("[INFO] SIGN UP");
     setIsLoading(true);
-    setSuccess(false);
-    setError(false);
 
     props.firebase
       .signUp(nameValue, emailValue, passwordValue)
@@ -92,8 +96,10 @@ function Login(props) {
           isOpen={true}
           variant={"success"}
           message={message}
-          callback={()=>{
-              props.history.push("/app/dashboard")
+          callback={() => {
+            setSuccess(false);
+            setError(false);
+            props.history.push("/app/dashboard");
           }}
         />
       )}
@@ -102,6 +108,10 @@ function Login(props) {
           isOpen={true}
           variant={"error"}
           message={message}
+          callback={() => {
+            setSuccess(false);
+            setError(false);
+          }}
         />
       )}
 
@@ -193,7 +203,12 @@ function Login(props) {
                 <Typography className={classes.formDividerWord}>or</Typography>
                 <div className={classes.formDivider} />
               </div>
-              <Button
+
+              <StyledFirebaseAuth
+                uiConfig={props.firebase.getUIConf(successFunc)}
+                firebaseAuth={props.firebase.auth}
+              />
+              {/* <Button
                 size="large"
                 className={classnames(
                   classes.googleButton,
@@ -202,7 +217,7 @@ function Login(props) {
               >
                 <img src={google} alt="google" className={classes.googleIcon} />
                 &nbsp;Sign in with Google
-              </Button>
+              </Button> */}
             </React.Fragment>
           )}
 

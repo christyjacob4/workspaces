@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firebase-firestore";
 import { firebaseConfig } from "../../helpers/config";
 
+
 class Firebase {
   constructor() {
     console.log("[INFO] INITIALISING FIREBASE");
@@ -58,6 +59,29 @@ class Firebase {
       .get();
     return quote.get("quote");
   };
+
+  getUIConf = (callback)=>{
+		return  {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: "popup",
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [
+      {
+        provider: app.auth.GoogleAuthProvider.PROVIDER_ID,
+        customParameters: {
+          // Forces account selection even when one account
+          // is available.
+          prompt: "select_account",
+        },
+        // scopes: firebaseConfig.scopes,
+      },
+    ],
+    callbacks: {
+      // // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: callback,
+    },
+  };
+  }
 }
 
 export default Firebase;
