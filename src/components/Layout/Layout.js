@@ -17,6 +17,8 @@ import Notes from "../Notes";
 import NotesGrid from "../NotesGrid";
 import News from '../News';
 import Chat from '../Chat';
+import Wall from '../Wall';
+
 // contextyaNews
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -45,6 +47,7 @@ function Layout(props) {
               <Route path="/app/news" component={News} />
               <Route path="/app/chat" component={Chat} />
               <Route path="/app/editor" component={Notes} />
+              <Route path="/app/wall" component={Wall} />
 
             </Switch>
           </div>

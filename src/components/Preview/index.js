@@ -9,7 +9,7 @@ const Preview = props => {
 
   return (
     <div>
-      <ReactMarkdown source={code} renderers={{ code: CodeBlock }} />
+      <ReactMarkdown escapeHtml={false} source={code} renderers={{ code: CodeBlock }} />
     </div>
   );
 };

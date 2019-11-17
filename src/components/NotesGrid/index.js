@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   fab: {
-    position:'absolute',
+    position:'fixed',
     bottom: '5%',
     left:'92%',
   },
@@ -54,6 +54,7 @@ const NotesGrid = props => {
         }
         else
         {
+            // console.log(props.firebase.auth.currentUser);
             props.firebase.getNotes((notes)=>{
                 // console.log(notes); 
                 var notesArray = [];

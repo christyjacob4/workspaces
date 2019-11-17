@@ -4,6 +4,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import NotesIcon from '@material-ui/icons/Notes';
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -26,18 +27,24 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <DashboardIcon /> },
   {
     id: 1,
+    label: "Wall",
+    link: "/app/wall",
+    icon: <ChromeReaderModeIcon />,
+  },
+  {
+    id: 2,
     label: "Notes",
     link: "/app/notes",
     icon: <NotesIcon />,
   },
   {
-    id: 2,
+    id: 3,
     label: "News",
     link: "/app/news",
     icon: <AnnouncementIcon/>,
   },
    {
-    id: 3,
+    id: 4,
     label: "Chat",
     link: "/app/chat",
     icon: <QuestionAnswerIcon/>,

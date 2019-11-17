@@ -63,6 +63,20 @@ class Firebase {
     );
   };
 
+  addPublicNote = note => {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+    console.log(note);
+    return (
+      this.db
+        .collection("Wall")
+        .add({
+          note,
+        })
+    );
+  };
+
   addToNote = (id, note) => {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
@@ -73,6 +87,21 @@ class Firebase {
         .collection(`${this.auth.currentUser.uid}`)
         .doc("notes")
         .collection("entry")
+        .doc(id)
+        .set({
+          note,
+        })
+    );
+  };
+
+  addToPublicNote = (id, note) => {
+    if (!this.auth.currentUser.uid) {
+      return alert("Not authorized");
+    }
+    console.log(note);
+    return (
+      this.db
+        .collection("Wall")
         .doc(id)
         .set({
           note,
@@ -96,6 +125,20 @@ class Firebase {
     return;
   }; 
 
+  getPublicNotes = (callback) => {
+    if (!this.auth.currentUser) {
+    //   return alert("Not authorized");
+    return;
+    }
+    
+    this.db.collection("Wall")
+                        .get()
+                        .then(callback);
+    
+
+    return;
+  }; 
+
   deleteNote = (id, callback) => {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
@@ -105,6 +148,21 @@ class Firebase {
     this.db.collection(`${this.auth.currentUser.uid}`)
                         .doc("notes")
                         .collection("entry")
+                        .doc(id)
+                        .delete()
+                        .then(callback);
+    
+
+    return;
+  }; 
+
+  deletePublicNote = (id, callback) => {
+    if (!this.auth.currentUser || this.auth.currentUser.uid != 'tgDxEm5Q0wRubGZQh3fbQYR6A8u1') {
+      return alert("Not authorized");
+    // return;
+    }
+    
+    this.db.collection("Wall")
                         .doc(id)
                         .delete()
                         .then(callback);

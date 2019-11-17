@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Preview from "../Preview";
 import Notes from '../Notes';
-import EditDialog from '../EditDialog';
+import EditDialog from '../PublicEditDialog';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -16,9 +16,10 @@ import { withFirebase } from "../Firebase";
 const useStyles = makeStyles({
   delete: {
       position: 'relative',
-      left:'65%',
+      left:'80%',
   },
   card: {
+    padding:10,
     minWidth: 275,
   },
   bullet: {
@@ -64,7 +65,7 @@ const SimpleCard = ({firebase, title, content, note, id, onClose, onDelete}) => 
         <IconButton aria-label="delete" className={classes.delete}>
           <DeleteIcon
             onClick={()=>{
-                firebase.deleteNote(id, ()=>{
+                firebase.deletePublicNote(id, ()=>{
                     onClose();
                     onDelete(true);
                 })
