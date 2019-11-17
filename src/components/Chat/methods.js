@@ -77,12 +77,13 @@ function getRooms() {
 }
 
 function createRoom(name) {
-  this.currentUser
+  const {currentUser} = this.state
+  currentUser
     .createRoom({
       name,
     })
     .then(room => {
-      this.subscribeToRoom(room.id);
+      connectToRoom(room.id);
     })
     .catch(err => console.log("error with createRoom: ", err));
 }

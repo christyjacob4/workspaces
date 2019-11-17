@@ -45,9 +45,13 @@ class MessageList extends React.Component {
         </Paper>
       );
     }
-    // const { classes } = this.props;
+    const style = {
+      display: "flex",
+      "flex-direction": "column",
+      overflow: "scroll",
+    };
     return (
-      <>
+      <div style={style}>
         {this.props.messages.map((message, index) => {
           const time = format(new Date(`${message.updatedAt}`), "HH:mm");
           return (
@@ -59,7 +63,7 @@ class MessageList extends React.Component {
             />
           );
         })}
-      </>
+      </div>
     );
   }
 }

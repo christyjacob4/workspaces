@@ -5,7 +5,7 @@ import SendMessageForm from "./SendMessageForm";
 import RoomList from "./RoomList";
 import NewRoomForm from "./NewRoomForm";
 import NewUserDialog from "./NewUserDialog";
-import CurrentUser from "./CurrentUser"
+import CurrentUser from "./CurrentUser";
 import ActiveUsers from "./ActiveUsers";
 import { config } from "../../helpers/config";
 
@@ -13,9 +13,17 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography";
 
-import { handleUserId, handleMessage, connectToChatkit, getRooms, createRoom, connectToRoom, sendMessage} from "./methods";
+import {
+  handleUserId,
+  handleMessage,
+  connectToChatkit,
+  getRooms,
+  createRoom,
+  connectToRoom,
+  sendMessage,
+} from "./methods";
 
 const sidebarLeft = {
   border: "2px solid #ccc",
@@ -35,10 +43,10 @@ class Chat extends React.Component {
       showLogin: true,
       userId: "",
       currentUser: null,
-      currentRoom : null,
+      currentRoom: null,
       roomUsers: [],
       roomName: null,
-      newMessage : ""
+      newMessage: "",
     };
     this.sendMessage = sendMessage.bind(this);
     this.connectToRoom = connectToRoom.bind(this);
@@ -85,12 +93,12 @@ class Chat extends React.Component {
             style={sidebarLeft}
           >
             <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              <CurrentUser user={this.state.currentUser}/>
+              <CurrentUser user={this.state.currentUser} />
               <RoomList
                 connectToRoom={this.connectToRoom}
                 rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                 currentRoom={this.state.currentRoom}
-                currentUser= {this.state.currentUser}
+                currentUser={this.state.currentUser}
               />
 
               <NewRoomForm createRoom={this.createRoom} />
@@ -107,9 +115,7 @@ class Chat extends React.Component {
             style={sidebarRight}
           >
             <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              <Typography variant="h6">
-                {this.state.roomName}
-              </Typography>
+              <Typography variant="h6">{this.state.roomName}</Typography>
               <MessageList
                 messages={this.state.messages}
                 currentRoom={this.state.currentRoom}
@@ -134,11 +140,12 @@ class Chat extends React.Component {
             style={sidebarRight}
           >
             <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              <RoomList
-                connectToRoom={this.connectToRoom}
-                rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-                currentRoom={this.state.currentRoom}
-              />
+              {this.state.currentRoom ? (
+                <ActiveUsers
+                  roomUsers={this.state.roomUsers}
+                  currentUser={this.state.currentUser}
+                />
+              ) : null}
             </Box>
           </Grid>
         </Grid>

@@ -32,6 +32,9 @@ const Message = ({ username, text, key, time }) => {
         className={classes.chip}
         avatar={<Avatar>{username}</Avatar>}
       />
+       <Typography variant="h5" className={classes.username}>
+        {time}
+    </Typography>
     </div>
   );
 };
