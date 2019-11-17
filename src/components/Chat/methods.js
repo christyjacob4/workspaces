@@ -59,18 +59,22 @@ function connectToChatkit(event) {
             showLogin: false,
             joinedRooms: currentUser.rooms,
           });
-        });
+          getRooms(this);
+        })
     })
     .catch(console.error);
 }
 
-function getRooms() {
-  this.currentUser
+function getRooms(self) {
+
+  const {currentUser} = self.state
+
+  currentUser
     .getJoinableRooms()
     .then(joinableRooms => {
-      this.setState({
+      console.log("[JOINABLE ROOMS]", joinableRooms)
+      self.setState({
         joinableRooms,
-        joinedRooms: this.currentUser.rooms,
       });
     })
     .catch(err => console.log("error on joinableRooms: ", err));
@@ -131,6 +135,8 @@ function connectToRoom(id) {
         joinedRooms: currentUser.rooms,
         roomName,
       });
+
+      getRooms(this);
     })
     .catch(console.error);
 }
