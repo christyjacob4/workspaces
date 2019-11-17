@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Chatkit from "@pusher/chatkit-client";
 import MessageList from "./MessageList";
 import SendMessageForm from "./SendMessageForm";
@@ -29,26 +29,22 @@ const styles = makeStyles(theme => ({
   },
 }));
 
-const Chat = () => {
-  const [roomId, setRoomId] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [joinableRooms, setJoinableRooms] = useState([]);
-  const [joinedRoms, setJoinedRooms] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
+class Chat extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      roomId: null,
+      messages: [],
+      joinableRooms: [],
+      joinedRooms: [],
+    };
+    this.sendMessage = this.sendMessage.bind(this);
+    this.subscribeToRoom = this.subscribeToRoom.bind(this);
+    this.getRooms = this.getRooms.bind(this);
+    this.createRoom = this.createRoom.bind(this);
+  }
 
-  const classes = useStyles();
-
-  const getRooms = () => {
-    currentUser
-      .getJoinableRooms()
-      .then(joinableRooms => {
-        setJoinableRooms(joinableRooms);
-        setJoinedRooms(currentUser.rooms);
-      })
-      .catch(err => console.log("error on joinableRooms: ", err));
-  };
-
-  useEffect(() => {
+  componentDidMount() {
     const chatManager = new Chatkit.ChatManager({
       instanceLocator: config.instanceLocator,
       userId: "cj",
@@ -60,135 +56,153 @@ const Chat = () => {
     chatManager
       .connect()
       .then(currentUser => {
-        setCurrentUser(currentUser);
-        getRooms();
+        this.currentUser = currentUser;
+        this.getRooms();
       })
       .catch(err => console.log("error on connecting: ", err));
-  }, [getRooms]);
+  }
 
+  getRooms() {
+    this.currentUser
+      .getJoinableRooms()
+      .then(joinableRooms => {
+        this.setState({
+          joinableRooms,
+          joinedRooms: this.currentUser.rooms,
+        });
+      })
+      .catch(err => console.log("error on joinableRooms: ", err));
+  }
 
-  const subscribeToRoom = roomId => {
-    setMessages([]);
-    currentUser
+  subscribeToRoom(roomId) {
+    this.setState({ messages: [] });
+    this.currentUser
       .subscribeToRoom({
         roomId: roomId,
         hooks: {
           onMessage: message => {
             console.log("[HOOK] New Message Received", message);
-            setMessages([...this.state.messages, message]);
+            this.setState({
+              messages: [...this.state.messages, message],
+            });
           },
         },
       })
       .then(room => {
-        setRoomId(room.id);
-        getRooms();
+        this.setState({
+          roomId: room.id,
+        });
+        this.getRooms();
       })
       .catch(err => console.log("error on subscribing to room: ", err));
-  };
+  }
 
-  const sendMessage = text => {
-    currentUser.sendMessage({
+  sendMessage(text) {
+    this.currentUser.sendMessage({
       text,
-      roomId,
+      roomId: this.state.roomId,
     });
-  };
+  }
 
-  const createRoom = name => {
-    currentUser
+  createRoom(name) {
+    this.currentUser
       .createRoom({
         name,
       })
       .then(room => {
-        subscribeToRoom(room.id);
+        this.subscribeToRoom(room.id);
       })
       .catch(err => console.log("error with createRoom: ", err));
-  };
+  }
 
-  return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      spacing={2}
-      className={classes.gridList}
-    >
+  render() {
+    const { classes } = this.props;
+    return (
       <Grid
         container
-        xs={3}
-        direction="column"
-        justify="space-around"
+        direction="row"
+        justify="center"
         alignItems="center"
+        spacing={3}
+        className={classes.gridList}
       >
-        <Box
-          width={1}
-          height={1}
-          bgcolor="background.paper"
-          p={1}
-          my={0.5}
-          mx={1}
+        <Grid
+          container
+          xs={3}
+          direction="column"
+          justify="space-around"
+          alignItems="center"
         >
-          <RoomList
-            subscribeToRoom={this.subscribeToRoom}
-            rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-            roomId={this.state.roomId}
-          />
+          <Box
+            width={1}
+            height={1}
+            bgcolor="background.paper"
+            p={1}
+            my={0.5}
+            mx={1}
+          >
+            <RoomList
+              subscribeToRoom={this.subscribeToRoom}
+              rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+              roomId={this.state.roomId}
+            />
 
-          <NewRoomForm createRoom={this.createRoom} />
-        </Box>
-      </Grid>
+            <NewRoomForm createRoom={this.createRoom} />
+          </Box>
+        </Grid>
 
-      <Grid
-        container
-        xs={5}
-        direction="column"
-        justify="space-around"
-        alignItems="flex-start"
-      >
-        <Box
-          width={1}
-          height={1}
-          bgcolor="background.paper"
-          p={1}
-          my={0.5}
-          mx={1}
+        <Grid
+          container
+          xs={5}
+          direction="column"
+          justify="space-around"
+          alignItems="flex-start"
         >
-          <MessageList
-            roomId={this.state.roomId}
-            messages={this.state.messages}
-          />
+          <Box
+            width={1}
+            height={1}
+            bgcolor="background.paper"
+            p={1}
+            my={0.5}
+            mx={1}
+          >
+            <MessageList
+              roomId={this.state.roomId}
+              messages={this.state.messages}
+            />
 
-          <SendMessageForm
-            disabled={!this.state.roomId}
-            sendMessage={this.sendMessage}
-          />
-        </Box>
-      </Grid>
+            <SendMessageForm
+              disabled={!this.state.roomId}
+              sendMessage={this.sendMessage}
+            />
+          </Box>
+        </Grid>
 
-      <Grid
-        container
-        xs={2}
-        direction="column"
-        justify="space-around"
-        alignItems="flex-start"
-      >
-        <Box
-          width={1}
-          height={1}
-          bgcolor="background.paper"
-          p={1}
-          my={0.5}
-          mx={1}
+        <Grid
+          container
+          xs={2}
+          direction="column"
+          justify="space-around"
+          alignItems="flex-start"
         >
-          <RoomList
-            subscribeToRoom={this.subscribeToRoom}
-            rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-            roomId={this.state.roomId}
-          />
-        </Box>
+          <Box
+            width={1}
+            height={1}
+            bgcolor="background.paper"
+            p={1}
+            my={0.5}
+            mx={1}
+          >
+           <RoomList
+              subscribeToRoom={this.subscribeToRoom}
+              rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+              roomId={this.state.roomId}
+            />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  );
-};
+    );
+  }
+}
 
 export default withStyles(styles)(Chat);
