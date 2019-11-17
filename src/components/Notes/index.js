@@ -25,7 +25,7 @@ const Notes = (props) => {
     <div className={classes.root}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <Editor code={code} setCode={setCode} />
+          <Editor code={code} setCode={setCode} id={props.id} title={props.title}/>
         </Grid>
         <Grid item xs={6}>
           {/* <Paper className={classes.paper}> */}

@@ -18,7 +18,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 // import Checkbox from "@material-ui/core/Checkbox";
-
+import CustomizedSnackbars from "../Snackbar/Snackbar";
 import { withFirebase } from "../Firebase";
 
 // const GreenCheckbox = withStyles({
@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => ({
 const Editor = props => {
   const classes = useStyles();
   let { code, setCode, id } = props;
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(props.title);
   const [theme, setTheme] = useState("twilight");
   const [mode, setMode] = useState("markdown");
   const [fontSize, setFontSize] = useState(20);
@@ -103,6 +103,7 @@ const Editor = props => {
   const [activeLine, setActiveLine] = useState(false);
   const [enableSnippets, setEnableSnippets] = useState(true);
   const [lineNumbers, setLineNumbers] = useState(true)
+  const [saved,setSaved] = useState(false);
 
   const onload = () => {
     console.log("Component Loaded");
@@ -114,6 +115,17 @@ const Editor = props => {
   };
   return (
     <Grid container>
+    {saved && (
+        <CustomizedSnackbars
+          isOpen={true}
+          variant={"success"}
+          message={"Saved Successfully"}
+          callback={() => {
+            setSaved(false);
+            
+          }}
+        />
+      )}
       <Grid
         container
         direction="row"
@@ -141,11 +153,11 @@ const Editor = props => {
                 'title': title,
                 'code': props.code
             };
-            if(props.id == null)
+            if(!id)
             {
                 props.firebase.addNote(obj).then(res =>{
                     console.log("[SUCCESS]",  res);
-
+                    setSaved(true);
                     
 
                     }).catch(err=>{
@@ -157,7 +169,7 @@ const Editor = props => {
             {
                 props.firebase.addToNote(props.id, obj).then(res =>{
                     console.log("[SUCCESS]",  res);
-
+                    setSaved(true);
                     
 
                     }).catch(err=>{

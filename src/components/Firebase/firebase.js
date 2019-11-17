@@ -96,6 +96,23 @@ class Firebase {
     return;
   }; 
 
+  deleteNote = (id, callback) => {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    // return;
+    }
+    
+    this.db.collection(`${this.auth.currentUser.uid}`)
+                        .doc("notes")
+                        .collection("entry")
+                        .doc(id)
+                        .delete()
+                        .then(callback);
+    
+
+    return;
+  }; 
+
   isInitialised = () => {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);

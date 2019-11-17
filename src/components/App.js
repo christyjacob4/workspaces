@@ -7,6 +7,7 @@ import { withAuthentication } from './Session';
 // pages
 import Error from "./Error";
 import Login from "./Login";
+import NotesGrid from './NotesGrid';
 
 const App = ()=> {
   console.log("[INFO] IN APP COMPONENT");
@@ -17,6 +18,7 @@ const App = ()=> {
         <Route exact path="/app" render={() => <Redirect to="/app/dashboard" />} />
         <Route path="/app" component={Layout} />
         <Route path="/login" component={Login} />
+        <Route path="/app/notes" component={NotesGrid} />
         <Route component={Error} />
       </Switch>
     </BrowserRouter>

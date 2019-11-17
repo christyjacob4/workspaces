@@ -6,10 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Notes from '../Notes';
 
 const EditDialog = (props) => {
-  const [open, setOpen] = React.useState(true);
-  const { userId, title, code } = props;
+  const { id, title, code, open , setOpen} = props;
 
   const handleClose = () => {
     setOpen(false);
@@ -17,17 +17,14 @@ const EditDialog = (props) => {
 
   return (
     <div>
-      <Dialog disableBackdropClick disableEscapeKeyDown fullWidth={true}  open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit Note</DialogTitle>
+      <Dialog disableEscapeKeyDown fullWidth={true} maxWidth={'xl'} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{props.dialogTitle}</DialogTitle>
         <DialogContent>
-          
+          <Notes id={id} code={code} title={title}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={connectToChatkit} color="primary">
-            Submit
+          <Button onClick={()=>{props.onClose(); setOpen(false);}} color="primary">
+            Close
           </Button>
         </DialogActions>
       </Dialog>

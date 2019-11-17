@@ -103,7 +103,7 @@ export default function CustomizedSnackbars(props) {
         horizontal: "right",
       }}
       open={open}
-      autoHideDuration={4000}
+      autoHideDuration={2000}
       onClose={handleClose}
     >
       <MySnackbarContentWrapper
