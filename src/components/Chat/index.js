@@ -1,37 +1,24 @@
 import React from "react";
-import Chatkit from "@pusher/chatkit-client";
-import MessageList from "./MessageList";
-import SendMessageForm from "./SendMessageForm";
+import ChatSession from "./ChatSession";
+import Dialog from "./Dialog";
 import RoomList from "./RoomList";
-import NewRoomForm from "./NewRoomForm";
-import NewUserDialog from "./NewUserDialog";
-import CurrentUser from "./CurrentUser";
-import ActiveUsers from "./ActiveUsers";
-import { config } from "../../helpers/config";
+import RoomUsers from "./RoomUsers";
 
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+// import 'skeleton-css/css/normalize.css';
+// import 'skeleton-css/css/skeleton.css';
+import "./index.css";
 
 import {
   handleUserId,
   handleMessage,
+  handleNewRoom,
   connectToChatkit,
   getRooms,
   createRoom,
   connectToRoom,
   sendMessage,
+  sendDM,
 } from "./methods";
-
-const sidebarLeft = {
-  border: "2px solid #ccc",
-};
-
-const sidebarRight = {
-  border: "2px solid #ccc",
-};
 
 class Chat extends React.Component {
   constructor() {
@@ -47,6 +34,7 @@ class Chat extends React.Component {
       roomUsers: [],
       roomName: null,
       newMessage: "",
+      newRoom : "",
     };
     this.sendMessage = sendMessage.bind(this);
     this.connectToRoom = connectToRoom.bind(this);
@@ -54,102 +42,104 @@ class Chat extends React.Component {
     this.createRoom = createRoom.bind(this);
     this.handleUserId = handleUserId.bind(this);
     this.handleMessage = handleMessage.bind(this);
+    this.handleNewRoom = handleNewRoom.bind(this);
     this.connectToChatkit = connectToChatkit.bind(this);
+    this.sendDM = sendDM.bind(this);
   }
 
   render() {
-    if (this.state.showLogin) {
-      return (
-        <NewUserDialog
-          userId={this.state.userId}
-          handleInput={this.handleUserId}
-          connectToChatkit={this.connectToChatkit}
-        />
-      );
-    }
+    const {
+      userId,
+      showLogin,
+      joinedRooms,
+      joinableRooms,
+      currentRoom,
+      currentUser,
+      messages,
+      newMessage,
+      roomUsers,
+      roomName,
+      newRoom
+    } = this.state;
+
     return (
-      <Box
-        width={1}
-        height={0.92}
-        bgcolor="background.paper"
-        p={1}
-        // my={0.5}
-        // mx={1}
-      >
-        <Grid
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="flex-start"
-          spacing={3}
-        >
-          <Grid
-            container
-            item
-            xs={3}
-            direction="column"
-            justify="space-around"
-            alignItems="center"
-            style={sidebarLeft}
-          >
-            <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              <CurrentUser user={this.state.currentUser} />
-              <RoomList
-                connectToRoom={this.connectToRoom}
-                rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-                currentRoom={this.state.currentRoom}
-                currentUser={this.state.currentUser}
-              />
-
-              <NewRoomForm createRoom={this.createRoom} />
-            </Box>
-          </Grid>
-
-          <Grid
-            container
-            xs={5}
-            item
-            direction="column"
-            justify="space-around"
-            alignItems="flex-start"
-            style={sidebarRight}
-          >
-            <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              <Typography variant="h6">{this.state.roomName}</Typography>
-              <MessageList
-                messages={this.state.messages}
-                currentRoom={this.state.currentRoom}
-              />
-
-              <SendMessageForm
-                disabled={!this.state.currentRoom}
-                sendMessage={this.sendMessage}
-                newMessage={this.state.newMessage}
-                handleInput={this.handleMessage}
-              />
-            </Box>
-          </Grid>
-
-          <Grid
-            container
-            xs={2}
-            item
-            direction="column"
-            justify="space-around"
-            alignItems="flex-start"
-            style={sidebarRight}
-          >
-            <Box width={1} height={1} p={1} my={0.5} mx={1}>
-              {this.state.currentRoom ? (
-                <ActiveUsers
-                  roomUsers={this.state.roomUsers}
-                  currentUser={this.state.currentUser}
+      <div className="App">
+        <aside className="sidebar left-sidebar">
+          {currentUser ? (
+            <div className="user-profile">
+              <span className="username">{currentUser.name}</span>
+              <span className="user-id">{`@${currentUser.id}`}</span>
+            </div>
+          ) : null}
+          {currentRoom ? (
+            <RoomList
+              rooms={[...joinedRooms, ...joinableRooms]}
+              currentRoom={currentRoom}
+              connectToRoom={this.connectToRoom}
+              currentUser={currentUser}
+            />
+          ) : null}
+          <div className="create-room-div"> 
+              <input
+                  type="text"
+                  value={newRoom}
+                  name="newRoom"
+                  className="message-input create"
+                  placeholder="Create New Room"
+                  onChange={this.handleNewRoom}
                 />
-              ) : null}
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+                <button
+                  onClick={() => this.createRoom().then(room => {
+                    this.setState({
+                      newRoom : ""
+                    })
+                    this.connectToRoom(room.id)
+                  })}
+                  title={`Create a new Room`}
+                  className="create-room-button"
+                >
+                  +
+                </button>
+          </div>
+        </aside>
+        <section className="chat-screen">
+          <header className="chat-header">
+            {currentRoom ? <h2>{roomName}</h2> : <h2> Select a Room </h2>}
+          </header>
+          <ul className="chat-messages">
+            <ChatSession messages={messages} />
+          </ul>
+          <footer className="chat-footer">
+            <form onSubmit={this.sendMessage} className="message-form">
+              <input
+                type="text"
+                value={newMessage}
+                name="newMessage"
+                className="message-input"
+                placeholder="Type your message and hit ENTER to send"
+                onChange={this.handleMessage}
+                disabled={!currentRoom}
+              />
+            </form>
+          </footer>
+        </section>
+        <aside className="sidebar right-sidebar">
+          {currentRoom ? (
+            <RoomUsers
+              currentUser={currentUser}
+              sendDM={this.sendDM}
+              roomUsers={roomUsers}
+            />
+          ) : null}
+        </aside>
+        {showLogin ? (
+          <Dialog
+            userId={userId}
+            handleInput={this.handleUserId}
+            connectToChatkit={this.connectToChatkit}
+          />
+        ) : null}
+      </div>
     );
   }
 }

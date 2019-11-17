@@ -19,6 +19,14 @@ function handleMessage(event) {
   });
 }
 
+function handleNewRoom(event) {
+  const { value } = event.target;
+
+  this.setState({
+    newRoom: value,
+  });
+}
+
 function connectToChatkit(event) {
   event.preventDefault();
 
@@ -60,19 +68,18 @@ function connectToChatkit(event) {
             joinedRooms: currentUser.rooms,
           });
           getRooms(this);
-        })
+        });
     })
     .catch(console.error);
 }
 
 function getRooms(self) {
-
-  const {currentUser} = self.state
+  const { currentUser } = self.state;
 
   currentUser
     .getJoinableRooms()
     .then(joinableRooms => {
-      console.log("[JOINABLE ROOMS]", joinableRooms)
+      console.log("[JOINABLE ROOMS]", joinableRooms);
       self.setState({
         joinableRooms,
       });
@@ -80,21 +87,17 @@ function getRooms(self) {
     .catch(err => console.log("error on joinableRooms: ", err));
 }
 
-function createRoom(name) {
-  const {currentUser} = this.state
-  currentUser
+function createRoom() {
+  const { currentUser, newRoom } = this.state;
+  return currentUser
     .createRoom({
-      name,
-    })
-    .then(room => {
-      connectToRoom(room.id);
+      name : newRoom,
     })
     .catch(err => console.log("error with createRoom: ", err));
 }
 
 function connectToRoom(id) {
   const { currentUser } = this.state;
-
   this.setState({
     messages: [],
   });
@@ -136,26 +139,78 @@ function connectToRoom(id) {
         roomName,
       });
 
-      getRooms(this);
+      console.log("[INFO]", this.state)
+
+
+      // getRooms(this);
     })
     .catch(console.error);
 }
 
-
 function sendMessage(event) {
-      event.preventDefault();
-      const { newMessage, currentUser, currentRoom } = this.state;
+  event.preventDefault();
+  const { newMessage, currentUser, currentRoom } = this.state;
 
-      if (newMessage.trim() === '') return;
+  if (newMessage.trim() === "") return;
 
-      currentUser.sendMessage({
-        text: newMessage,
-        roomId: `${currentRoom.id}`,
-      });
+  currentUser.sendMessage({
+    text: newMessage,
+    roomId: `${currentRoom.id}`,
+  });
 
-      this.setState({
-        newMessage: '',
-      });
+  this.setState({
+    newMessage: "",
+  });
+}
+
+function createPrivateRoom(id) {
+  const { currentUser, rooms } = this.state;
+  const roomName = `${currentUser.id}_${id}`;
+
+  const isPrivateChatCreated = rooms.filter(room => {
+    if (room.customData && room.customData.isDirectMessage) {
+      const arr = [currentUser.id, id];
+      const { userIds } = room.customData;
+
+      if (arr.sort().join("") === userIds.sort().join("")) {
+        return {
+          room,
+        };
+      }
     }
 
-export { handleUserId, handleMessage, connectToChatkit, getRooms, createRoom, connectToRoom,sendMessage };
+    return false;
+  });
+
+  if (isPrivateChatCreated.length > 0) {
+    return Promise.resolve(isPrivateChatCreated[0]);
+  }
+
+  return currentUser.createRoom({
+    name: `${roomName}`,
+    private: true,
+    addUserIds: [`${id}`],
+    customData: {
+      isDirectMessage: true,
+      userIds: [currentUser.id, id],
+    },
+  });
+}
+
+function sendDM(id) {
+  createPrivateRoom.call(this, id).then(room => {
+    connectToRoom.call(this, room.id);
+  });
+}
+
+export {
+  handleUserId,
+  handleMessage,
+  handleNewRoom,
+  connectToChatkit,
+  getRooms,
+  createRoom,
+  connectToRoom,
+  sendMessage,
+  sendDM,
+};
