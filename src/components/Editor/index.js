@@ -21,15 +21,15 @@ import Select from "@material-ui/core/Select";
 
 import { withFirebase } from "../Firebase";
 
-const GreenCheckbox = withStyles({
-  root: {
-    color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
-  },
-  checked: {},
-})(props => <Checkbox color="default" {...props} />);
+// const GreenCheckbox = withStyles({
+//   root: {
+//     color: green[400],
+//     "&$checked": {
+//       color: green[600],
+//     },
+//   },
+//   checked: {},
+// })(props => <Checkbox color="default" {...props} />);
 
 const fontSizes = [10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40];
 const languages = [

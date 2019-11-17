@@ -39,7 +39,7 @@ const SimpleCard = ({title, content, id}) => {
       <CardActions>
         <Button 
             size="small"
-            
+            onClick
         >
         Edit
         </Button>

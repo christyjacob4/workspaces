@@ -33,20 +33,24 @@ const NotesGrid = props => {
     const [noteData, setNoteData] = useState([]);
     const [loaded, setLoaded] = useState(false);
     
+    function updateNotes()
+    {
+        props.firebase.getNotes((notes)=>{
+            // console.log(notes); 
+            var notesArray = [];
+            var i =0;
+            notes.forEach(doc => {
+                notesArray[i] = {'id':doc.id, 'data':doc.data().note};
+                i+=1;
+            });
+            console.log(notesArray);
+            setNoteData(notesArray);
+            setLoaded(true);
+        });
+    }
     
     useEffect(() => {
-    props.firebase.getNotes((notes)=>{
-        // console.log(notes); 
-        var notesArray = [];
-        var i =0;
-        notes.forEach(doc => {
-            notesArray[i] = doc.data().note;
-            i+=1;
-        });
-        console.log(notesArray);
-        setNoteData(notesArray);
-        setLoaded(true);
-    });
+        updateNotes();
   }, []);
 
 
@@ -62,30 +66,27 @@ const NotesGrid = props => {
 //   }, []);
     
   return (
-      <div className={classes.root}>
-      <Grid  container justify="center" spacing={5}>
-      
-        {/* <div className={classes.root}>
-         <GridList cellHeight={'auto'} spacing={20} className={classes.gridList}> */}
-            {noteData.map(obj => (
-            <Grid item xs>
-              <SimpleCard
-                title={obj.title}
-                content={obj.code}
-              />
-            </Grid>
-            ))} 
+    <div className={classes.root}>
+      <Grid  container justify="left" spacing={5}>
+            {noteData.map(obj => {
+                return (<Grid item xs={4}>
+                    <SimpleCard 
+                    id = {obj.id}
+                    title={obj.data.title} 
+                    content={obj.data.code.slice(0,250)} />
+                </Grid>);
+            })} 
+        </Grid>
             {!loaded && (
+                <Grid  container justify="center" spacing={5}>
+                
                   <CircularProgress
                     size={50}
                     style={{ marginTop: '20%', position: "relative" }}
                   />
-                )}
-           {/* </GridList>
-         </div> */}
-         
-       </Grid>
-       </div>
+                </Grid>
+            )}
+    </div>
 
   );
 };
