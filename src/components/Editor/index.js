@@ -19,6 +19,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import { withFirebase } from "../Firebase";
+
 const GreenCheckbox = withStyles({
   root: {
     color: green[400],
@@ -89,7 +91,7 @@ const useStyles = makeStyles(theme => ({
 
 const Editor = props => {
   const classes = useStyles();
-  let { code, setCode } = props;
+  let { code, setCode, id } = props;
   const [title, setTitle] = useState("");
   const [theme, setTheme] = useState("twilight");
   const [mode, setMode] = useState("markdown");
@@ -134,6 +136,36 @@ const Editor = props => {
         variant="contained"
         color="primary"
         size="large"
+        onClick={()=>{
+            var obj = {
+                'title': title,
+                'code': props.code
+            };
+            if(props.id == null)
+            {
+                props.firebase.addNote(obj).then(res =>{
+                    console.log("[SUCCESS]",  res);
+
+                    
+
+                    }).catch(err=>{
+                    console.log("[ERROR]",err);
+                    
+                    })
+            }
+            else
+            {
+                props.firebase.addToNote(props.id, obj).then(res =>{
+                    console.log("[SUCCESS]",  res);
+
+                    
+
+                    }).catch(err=>{
+                    console.log("[ERROR]",err);
+                    
+                    })
+            }
+        }}
         className={classes.button}
         startIcon={<SaveIcon />}
       >
@@ -305,4 +337,4 @@ const Editor = props => {
   );
 };
 
-export default Editor;
+export default withFirebase(Editor);

@@ -47,6 +47,55 @@ class Firebase {
     );
   };
 
+  addNote = note => {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+    console.log(note);
+    return (
+      this.db
+        .collection(`${this.auth.currentUser.uid}`)
+        .doc("notes")
+        .collection("entry")
+        .add({
+          note,
+        })
+    );
+  };
+
+  addToNote = (id, note) => {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+    console.log(note);
+    return (
+      this.db
+        .collection(`${this.auth.currentUser.uid}`)
+        .doc("notes")
+        .collection("entry")
+        .doc(id)
+        .set({
+          note,
+        })
+    );
+  };
+
+  getNotes = (callback) => {
+    if (!this.auth.currentUser) {
+    //   return alert("Not authorized");
+    return;
+    }
+    
+    this.db.collection(`${this.auth.currentUser.uid}`)
+                        .doc("notes")
+                        .collection("entry")
+                        .get()
+                        .then(callback);
+    
+
+    return;
+  }; 
+
   isInitialised = () => {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);

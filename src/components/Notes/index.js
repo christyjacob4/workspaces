@@ -16,9 +16,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Notes = props => {
+const Notes = (props) => {
   const classes = useStyles();
-
+    
   const [code, setCode] = useState(`
 # Live demo
 

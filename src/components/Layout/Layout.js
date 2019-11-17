@@ -14,6 +14,7 @@ import Header from "../Header";
 import Sidebar from "../Sidebar";
 import Dashboard from "../Dashboard";
 import Notes from "../Notes";
+import NotesGrid from "../NotesGrid";
 import News from '../News';
 import Chat from '../Chat';
 // contextyaNews
@@ -40,9 +41,11 @@ function Layout(props) {
             <div className={classes.fakeToolbar} />
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/notes" component={Notes} />
+              <Route path="/app/notes" component={NotesGrid} />
               <Route path="/app/news" component={News} />
               <Route path="/app/chat" component={Chat} />
+              <Route path="/app/editor" component={Notes} />
+
             </Switch>
           </div>
         </>
