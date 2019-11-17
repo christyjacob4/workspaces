@@ -10,6 +10,9 @@ import { Button } from "../Wrappers";
 // config
 import {config} from "../../helpers/config";
 
+
+import { withFirebase } from "../Firebase";
+
 // function secondsToHuman(seconds) {
 //   seconds = Number(seconds);
 //   var d = Math.floor(seconds / (3600 * 24));
@@ -42,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Competition() {
+function Competition(props) {
   const classes = useStyles();
 
   const [competitions, setCompetitions] = useState({
@@ -51,6 +54,8 @@ export default function Competition() {
   });
 
   const [loaded, setLoaded] = useState(false);
+
+  const [firebaseEvent, setFirebaseEvent] = useState({})
 
   const columns = [
     {
@@ -133,6 +138,7 @@ export default function Competition() {
       options: {
         filter: false,
         customBodyRender: (value, tableMeta, updateValue) => {
+          
           return (
             <Button
               // color={states[status.toLowerCase()]}
@@ -140,8 +146,39 @@ export default function Competition() {
               size="small"
               className="px-2"
               variant="contained"
+              onClick={()=>{
+                let loadStatus = firebaseEvent
+                loadStatus[tableMeta[0]] = 
+                setFirebaseEvent({loadStatus})
+                var obj = {
+                  'id' : tableMeta.rowData[0],
+                  'event' : tableMeta.rowData[1],
+                  'resource' : tableMeta.rowData[2],
+                  'duration' : tableMeta.rowData[3],
+                  'start' :  tableMeta.rowData[4],
+                  'end' : tableMeta.rowData[5],
+                  'href' : tableMeta.rowData[6],
+                  'status' : true,
+                }
+                props.firebase.addToCalendar(obj).then(res =>{
+                  console.log("[SUCCESS]",  res)
+
+                  let loadStatus = firebaseEvent[tableMeta[0]] = false
+                  setFirebaseEvent({loadStatus})
+
+                }).catch(err=>{
+                  console.log("[ERROR]",err)
+                  let loadStatus = firebaseEvent[tableMeta[0]] = false
+                  setFirebaseEvent({loadStatus})
+                })
+              }}
             >
-              Hey
+              {!loaded && (
+                  <CircularProgress
+                    size={24}
+                    style={{ marginLeft: 15, position: "relative", top: 4 }}
+                  />
+                )}
             </Button>
           );
         },
@@ -205,3 +242,6 @@ export default function Competition() {
     </div>
   );
 }
+
+
+export default withFirebase(Competition)

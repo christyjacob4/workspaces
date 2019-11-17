@@ -33,6 +33,9 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
+
+import { withFirebase } from '../Firebase';
+
 // import { useUserDispatch, signOut } from "../../context/UserContext";
 
 const messages = [
@@ -88,7 +91,7 @@ const notifications = [
   },
 ];
 
-export default function Header(props) {
+const Header = ({firebase}) => {
   var classes = useStyles();
 
   // global
@@ -103,19 +106,6 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
-
-// //   console.log(localStorage.getItem("firebaseui::rememberedAccounts"));
-// if(localStorage.getItem("id_token")!=="1")
-// {
-//     signOut(userDispatch, props.history);
-// }
-// else
-// {
-//     var info = JSON.parse(localStorage.getItem("firebaseui::rememberedAccounts"))[0];
-//     console.log(info);
-//     var name = info['displayName'];
-//     var email = info['email'];
-// }
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -152,27 +142,6 @@ export default function Header(props) {
           Workspace Home
         </Typography>
         <div className={classes.grow} />
-        <div
-          className={classNames(classes.search, {
-            [classes.searchFocused]: isSearchOpen,
-          })}
-        >
-          <div
-            className={classNames(classes.searchIcon, {
-              [classes.searchIconOpened]: isSearchOpen,
-            })}
-            onClick={() => setSearchOpen(!isSearchOpen)}
-          >
-            <SearchIcon classes={{ root: classes.headerIcon }} />
-          </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-          />
-        </div>
         <IconButton
           color="inherit"
           aria-haspopup="true"
@@ -188,23 +157,6 @@ export default function Header(props) {
             color="warning"
           >
             <NotificationsIcon classes={{ root: classes.headerIcon }} />
-          </Badge>
-        </IconButton>
-        <IconButton
-          color="inherit"
-          aria-haspopup="true"
-          aria-controls="mail-menu"
-          onClick={e => {
-            setMailMenu(e.currentTarget);
-            setIsMailsUnread(false);
-          }}
-          className={classes.headerMenuButton}
-        >
-          <Badge
-            badgeContent={isMailsUnread ? messages.length : null}
-            color="secondary"
-          >
-            <MailIcon classes={{ root: classes.headerIcon }} />
           </Badge>
         </IconButton>
         <IconButton
@@ -300,47 +252,21 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {/* {name} */}
+              {firebase.getCurrentUsername()}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
               component="a"
               color="primary"
-            //   href="https://flatlogic.com"
             >
-              {/* {firebase.auth().currentUser.email} */}
-              {/* {email} */}
+              {firebase.getCurrentUserEmail()}
             </Typography>
           </div>
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon} /> Profile
-          </MenuItem>
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon} /> Tasks
-          </MenuItem>
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon} /> Messages
-          </MenuItem>
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              // onClick={() => signOut(userDispatch, props.history)}
+              onClick={firebase.signOut}
             >
               Sign Out
             </Typography>
@@ -350,3 +276,6 @@ export default function Header(props) {
     </AppBar>
   );
 }
+
+
+export default withFirebase(Header)

@@ -3,12 +3,12 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 // components
 import Layout from "./Layout";
-
+import { withAuthentication } from './Session';
 // pages
 import Error from "./Error";
 import Login from "./Login";
 
-export default function App() {
+const App = ()=> {
   console.log("[INFO] IN APP COMPONENT");
   return (
    <BrowserRouter>
@@ -22,6 +22,9 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+export default withAuthentication(App);
+
   // #######################################################################
 
 //   function PrivateRoute({ component, ...rest }) {

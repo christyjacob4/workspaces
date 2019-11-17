@@ -3,7 +3,6 @@ import "firebase/auth";
 import "firebase/firebase-firestore";
 import { firebaseConfig } from "../../helpers/config";
 
-
 class Firebase {
   constructor() {
     console.log("[INFO] INITIALISING FIREBASE");
@@ -28,19 +27,24 @@ class Firebase {
   };
 
   resetPassword = email => this.auth.sendPasswordResetEmail(email);
-  
+
   updatePassword = password => this.auth.currentUser.updatePassword(password);
 
-  addQuote = quote => {
+  addToCalendar = competition => {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
-
-    return this.db
-      .doc(`users_codedamn_video/${this.auth.currentUser.uid}`)
-      .set({
-        quote,
-      });
+    console.log(competition);
+    return (
+      this.db
+        .collection(`${this.auth.currentUser.uid}`)
+        .doc("calendar")
+        .collection("competitions")
+        // .doc(competition.id+'')
+        .add({
+          competition,
+        })
+    );
   };
 
   isInitialised = () => {
@@ -53,35 +57,41 @@ class Firebase {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   };
 
-  getCurrentUserQuote = async () => {
-    const quote = await this.db
-      .doc(`users_codedamn_video/${this.auth.currentUser.uid}`)
-      .get();
-    return quote.get("quote");
+  getCurrentUserEmail = () => {
+    return this.auth.currentUser && this.auth.currentUser.email;
   };
 
-  getUIConf = (callback)=>{
-		return  {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: "popup",
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-      {
-        provider: app.auth.GoogleAuthProvider.PROVIDER_ID,
-        customParameters: {
-          // Forces account selection even when one account
-          // is available.
-          prompt: "select_account",
-        },
-        // scopes: firebaseConfig.scopes,
-      },
-    ],
-    callbacks: {
-      // // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: callback,
-    },
+  getCurrentUserCalendar = async () => {
+    const quote = await this.db
+      .collection(`${this.auth.currentUser.uid}`)
+      .doc("calendar")
+      .collection("competitions")
+      .get();
+    return quote;
   };
-  }
+
+  getUIConf = callback => {
+    return {
+      // Popup signin flow rather than redirect flow.
+      signInFlow: "popup",
+      // We will display Google and Facebook as auth providers.
+      signInOptions: [
+        {
+          provider: app.auth.GoogleAuthProvider.PROVIDER_ID,
+          customParameters: {
+            // Forces account selection even when one account
+            // is available.
+            prompt: "select_account",
+          },
+          // scopes: firebaseConfig.scopes,
+        },
+      ],
+      callbacks: {
+        // // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: callback,
+      },
+    };
+  };
 }
 
 export default Firebase;
