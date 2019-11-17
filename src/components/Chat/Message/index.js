@@ -17,13 +17,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Message = ({ username, text, createdAt }) => {
+const Message = ({ username, text, key, time }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-    {/* <Typography variant="h5" className={classes.username}>
+    <Typography variant="h5" className={classes.username}>
         {username}
-    </Typography> */}
+    </Typography>
       <Chip
         color="secondary"
         // icon={icon}
