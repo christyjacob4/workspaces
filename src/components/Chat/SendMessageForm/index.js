@@ -14,30 +14,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SendMessageForm = ({ sendMessage, disabled }) => {
+const SendMessageForm = ({ sendMessage, disabled, newMessage, handleInput}) => {
   const classes = useStyles();
 
-  const [message, setMessage] = useState("");
-
-  const handleChange = e => {
-    setMessage(e.target.value);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    sendMessage(message);
-    setMessage("");
-  };
 
   return (
-    <form onSubmit={handleSubmit} className={classes.container}>
+    <form onSubmit={sendMessage} className={classes.container}>
       <TextField
         label="Type your message and hit ENTER"
         className={classes.textField}
         margin="normal"
-        value={message}
+        value={newMessage}
         disabled={disabled}
-        onChange = {handleChange}
+        onChange = {handleInput}
       />
     </form>
   );

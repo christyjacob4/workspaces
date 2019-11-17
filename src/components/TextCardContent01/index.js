@@ -21,10 +21,10 @@ const dateOptions = {
 const TextCardContent01 = ({title, date, key, link, content}) => {
   const styles = useBlogCardContentStyles();
   const boxStyle = useLightTopShadowStyles({
-    inactive: true, // add this line to disable hover effect
+    inactive: false, // add this line to disable hover effect
   });
   return (
-    <Box width={'100%'} borderRadius={4} classes={boxStyle}>
+    <center><Box width={'80%'}  height={'80%'} borderRadius={4} classes={boxStyle}>
       <CardContent>
         <TextInfoCardContent
           classes={styles}
@@ -34,7 +34,7 @@ const TextCardContent01 = ({title, date, key, link, content}) => {
         />
         <Button key = {key} href={link} className={styles.button}>Read more</Button>
       </CardContent>
-    </Box>
+    </Box></center>
   );
 };
 

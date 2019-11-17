@@ -7,12 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function NewUserDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+const NewUserDialog = (props) => {
+  const [open, setOpen] = React.useState(true);
+  const { userId, handleInput, connectToChatkit } = props;
 
   const handleClose = () => {
     setOpen(false);
@@ -20,22 +17,18 @@ export default function NewUserDialog() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog disableBackdropClick disableEscapeKeyDown fullWidth={true}  open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Enter Chatroom</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+              Login With your Username
           </DialogContentText>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
+            placeholder="Enter your username"
+            type="text"
+            value={userId}
+            onChange={handleInput}
             fullWidth
           />
         </DialogContent>
@@ -43,11 +36,13 @@ export default function NewUserDialog() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+          <Button onClick={connectToChatkit} color="primary">
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
+
+export default NewUserDialog;

@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  active: {
+    backgroundColor: "grey",
+  },
   inline: {
     display: "inline",
   },
@@ -23,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const RoomList = ({ rooms, roomId, subscribeToRoom }) => {
+const RoomList = ({ rooms, currentRoom, connectToRoom, currentUser }) => {
   const classes = useStyles();
   const orderedRooms = [...rooms].sort((a, b) => a.id > b.id);
 
@@ -37,62 +40,44 @@ const RoomList = ({ rooms, roomId, subscribeToRoom }) => {
     );
   else
     return (
-      <div className={classes.paper}>
-         <Typography variant="h5" component="h5">
+      <div>
+        <Typography variant="h5" component="h5">
           Your Rooms
         </Typography>
-        <List className={classes.root}>
-          {orderedRooms.map(room => {
-            const active = room.id === roomId ? "active" : "";
-            return (
-              <>
-                <ListItem
-                  key={room.id}
-                  onClick={() => subscribeToRoom(room.id)}
-                  alignItems="flex-start"
-                >
-                  <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="https://i.pravatar.cc/300" />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`# ${room.name}`}
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          Ali Connors
-                        </Typography>
-                        {" — I'll be in your neighborhood doing errands this…"}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </>
-            );
-          })}
-        </List>
+          <div className={classes.demo}>
+            <List>
+              {orderedRooms.map(room => {
+                const active = room.id === currentRoom ? true : false;
+                const roomIcon = !room.isPrivate ? "🌐" : "🔒";
+                return (
+                  <>
+                    <ListItem
+                      className={active ? classes.active : null}
+                      key={room.id}
+                      onClick={() => connectToRoom(room.id)}
+                      alignItems="flex-start"
+                    >
+                      <ListItemAvatar>
+                        <Avatar>{roomIcon}</Avatar>
+                      </ListItemAvatar>
+                      {room.customData && room.customData.isDirectMessage ? (
+                        <ListItemText
+                          primary={
+                            room.customData.userIds.filter(
+                              id => id !== currentUser.id,
+                            )[0]
+                          }
+                        />
+                      ) : (
+                        <ListItemText primary={`# ${room.name}`} />
+                      )}
+                    </ListItem>
+                  </>
+                );
+              })}
+            </List>
+          </div>
       </div>
-
-      // <div className="rooms-list">
-      //   <ul>
-      //     <h3>Your rooms:</h3>
-      //     {orderedRooms.map(room => {
-      //       const active = room.id === this.props.roomId ? "active" : "";
-      //       return (
-      //         <li key={room.id} className={"room " + active}>
-      //           <a onClick={() => this.props.subscribeToRoom(room.id)} href="#">
-      //             # {room.name}
-      //           </a>
-      //         </li>
-      //       );
-      //     })}
-      //   </ul>
-      // </div>
     );
 };
 

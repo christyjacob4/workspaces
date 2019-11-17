@@ -5,204 +5,153 @@ import SendMessageForm from "./SendMessageForm";
 import RoomList from "./RoomList";
 import NewRoomForm from "./NewRoomForm";
 import NewUserDialog from "./NewUserDialog";
+import CurrentUser from "./CurrentUser";
 import ActiveUsers from "./ActiveUsers";
 import { config } from "../../helpers/config";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { withStyles } from "@material-ui/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Typography from "@material-ui/core/Typography";
 
-const styles = makeStyles(theme => ({
-  titleBar: {
-    background:
-      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-  },
-  icon: {
-    color: "white",
-  },
-}));
+import {
+  handleUserId,
+  handleMessage,
+  connectToChatkit,
+  getRooms,
+  createRoom,
+  connectToRoom,
+  sendMessage,
+} from "./methods";
+
+const sidebarLeft = {
+  border: "2px solid #ccc",
+};
+
+const sidebarRight = {
+  border: "2px solid #ccc",
+};
 
 class Chat extends React.Component {
   constructor() {
     super();
     this.state = {
-      roomId: null,
       messages: [],
       joinableRooms: [],
       joinedRooms: [],
+      showLogin: true,
+      userId: "",
+      currentUser: null,
+      currentRoom: null,
+      roomUsers: [],
+      roomName: null,
+      newMessage: "",
     };
-    this.sendMessage = this.sendMessage.bind(this);
-    this.subscribeToRoom = this.subscribeToRoom.bind(this);
-    this.getRooms = this.getRooms.bind(this);
-    this.createRoom = this.createRoom.bind(this);
-  }
-
-  componentDidMount() {
-    const chatManager = new Chatkit.ChatManager({
-      instanceLocator: config.instanceLocator,
-      userId: "cj",
-      tokenProvider: new Chatkit.TokenProvider({
-        url: config.tokenUrl,
-      }),
-    });
-
-    chatManager
-      .connect()
-      .then(currentUser => {
-        this.currentUser = currentUser;
-        this.getRooms();
-      })
-      .catch(err => console.log("error on connecting: ", err));
-  }
-
-  getRooms() {
-    this.currentUser
-      .getJoinableRooms()
-      .then(joinableRooms => {
-        this.setState({
-          joinableRooms,
-          joinedRooms: this.currentUser.rooms,
-        });
-      })
-      .catch(err => console.log("error on joinableRooms: ", err));
-  }
-
-  subscribeToRoom(roomId) {
-    this.setState({ messages: [] });
-    this.currentUser
-      .subscribeToRoom({
-        roomId: roomId,
-        hooks: {
-          onMessage: message => {
-            console.log("[HOOK] New Message Received", message);
-            this.setState({
-              messages: [...this.state.messages, message],
-            });
-          },
-        },
-      })
-      .then(room => {
-        this.setState({
-          roomId: room.id,
-        });
-        this.getRooms();
-      })
-      .catch(err => console.log("error on subscribing to room: ", err));
-  }
-
-  sendMessage(text) {
-    this.currentUser.sendMessage({
-      text,
-      roomId: this.state.roomId,
-    });
-  }
-
-  createRoom(name) {
-    this.currentUser
-      .createRoom({
-        name,
-      })
-      .then(room => {
-        this.subscribeToRoom(room.id);
-      })
-      .catch(err => console.log("error with createRoom: ", err));
+    this.sendMessage = sendMessage.bind(this);
+    this.connectToRoom = connectToRoom.bind(this);
+    this.getRooms = getRooms.bind(this);
+    this.createRoom = createRoom.bind(this);
+    this.handleUserId = handleUserId.bind(this);
+    this.handleMessage = handleMessage.bind(this);
+    this.connectToChatkit = connectToChatkit.bind(this);
   }
 
   render() {
-    const { classes } = this.props;
+    if (this.state.showLogin) {
+      return (
+        <NewUserDialog
+          userId={this.state.userId}
+          handleInput={this.handleUserId}
+          connectToChatkit={this.connectToChatkit}
+        />
+      );
+    }
     return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={3}
-        className={classes.gridList}
+      <Box
+        width={1}
+        height={0.92}
+        bgcolor="background.paper"
+        p={1}
+        // my={0.5}
+        // mx={1}
       >
         <Grid
           container
-          xs={3}
-          direction="column"
-          justify="space-around"
-          alignItems="center"
-        >
-          <Box
-            width={1}
-            height={1}
-            bgcolor="background.paper"
-            p={1}
-            my={0.5}
-            mx={1}
-          >
-            <RoomList
-              subscribeToRoom={this.subscribeToRoom}
-              rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-              roomId={this.state.roomId}
-            />
-
-            <NewRoomForm createRoom={this.createRoom} />
-          </Box>
-        </Grid>
-
-        <Grid
-          container
-          xs={5}
-          direction="column"
-          justify="space-around"
+          direction="row"
+          justify="space-evenly"
           alignItems="flex-start"
+          spacing={3}
         >
-          <Box
-            width={1}
-            height={1}
-            bgcolor="background.paper"
-            p={1}
-            my={0.5}
-            mx={1}
+          <Grid
+            container
+            item
+            xs={3}
+            direction="column"
+            justify="space-around"
+            alignItems="center"
+            style={sidebarLeft}
           >
-            <MessageList
-              roomId={this.state.roomId}
-              messages={this.state.messages}
-            />
+            <Box width={1} height={1} p={1} my={0.5} mx={1}>
+              <CurrentUser user={this.state.currentUser} />
+              <RoomList
+                connectToRoom={this.connectToRoom}
+                rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+                currentRoom={this.state.currentRoom}
+                currentUser={this.state.currentUser}
+              />
 
-            <SendMessageForm
-              disabled={!this.state.roomId}
-              sendMessage={this.sendMessage}
-            />
-          </Box>
-        </Grid>
+              <NewRoomForm createRoom={this.createRoom} />
+            </Box>
+          </Grid>
 
-        <Grid
-          container
-          xs={2}
-          direction="column"
-          justify="space-around"
-          alignItems="flex-start"
-        >
-          <Box
-            width={1}
-            height={1}
-            bgcolor="background.paper"
-            p={1}
-            my={0.5}
-            mx={1}
+          <Grid
+            container
+            xs={5}
+            item
+            direction="column"
+            justify="space-around"
+            alignItems="flex-start"
+            style={sidebarRight}
           >
-           <RoomList
-              subscribeToRoom={this.subscribeToRoom}
-              rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-              roomId={this.state.roomId}
-            />
-          </Box>
+            <Box width={1} height={1} p={1} my={0.5} mx={1}>
+              <Typography variant="h6">{this.state.roomName}</Typography>
+              <MessageList
+                messages={this.state.messages}
+                currentRoom={this.state.currentRoom}
+              />
+
+              <SendMessageForm
+                disabled={!this.state.currentRoom}
+                sendMessage={this.sendMessage}
+                newMessage={this.state.newMessage}
+                handleInput={this.handleMessage}
+              />
+            </Box>
+          </Grid>
+
+          <Grid
+            container
+            xs={2}
+            item
+            direction="column"
+            justify="space-around"
+            alignItems="flex-start"
+            style={sidebarRight}
+          >
+            <Box width={1} height={1} p={1} my={0.5} mx={1}>
+              {this.state.currentRoom ? (
+                <ActiveUsers
+                  roomUsers={this.state.roomUsers}
+                  currentUser={this.state.currentUser}
+                />
+              ) : null}
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     );
   }
 }
 
-export default withStyles(styles)(Chat);
+export default Chat;

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    height: 900,
+    height: 1000,
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
@@ -78,8 +78,7 @@ const News = props => {
             {newsApiFeed.map(data => (
               <GridListTile
                 key={data.img}
-                cols={data.title.split(" ").length < 15 ? 3 : 1}
-                rows={data.title.split(" ").length < 15 ? 1 : 2}
+                cols={data.title.split(" ").length < 15 ? 2 : 4}
               >
                 <NewsCard title={data.title} description={data.description} author={data.author} url={data.url} image={data.urlToImage} time={data.publishedAt}/>
               </GridListTile>
