@@ -3,6 +3,13 @@ import ChatSession from "./ChatSession";
 import Dialog from "./Dialog";
 import RoomList from "./RoomList";
 import RoomUsers from "./RoomUsers";
+import Speech from "./Speech";
+
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import MicIcon from "@material-ui/icons/Mic";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 // import 'skeleton-css/css/normalize.css';
 // import 'skeleton-css/css/skeleton.css';
@@ -34,7 +41,7 @@ class Chat extends React.Component {
       roomUsers: [],
       roomName: null,
       newMessage: "",
-      newRoom : "",
+      newRoom: "",
     };
     this.sendMessage = sendMessage.bind(this);
     this.connectToRoom = connectToRoom.bind(this);
@@ -59,28 +66,28 @@ class Chat extends React.Component {
       newMessage,
       roomUsers,
       roomName,
-      newRoom
+      newRoom,
     } = this.state;
 
     return (
-      <div className="App">
-        <aside className="sidebar left-sidebar">
-          {currentUser ? (
-            <div className="user-profile">
-              <span className="username">{currentUser.name}</span>
-              <span className="user-id">{`@${currentUser.id}`}</span>
-            </div>
-          ) : null}
-          {currentRoom ? (
-            <RoomList
-              rooms={[...joinedRooms, ...joinableRooms]}
-              currentRoom={currentRoom}
-              connectToRoom={this.connectToRoom}
-              currentUser={currentUser}
-            />
-          ) : null}
-          <div className="create-room-div"> 
-              <input
+      <Grid container>
+        <Card>
+          <div className="App">
+            <aside className="sidebar left-sidebar">
+              {currentUser ? (
+                <div className="user-profile">
+                  <span className="username">{currentUser.name}</span>
+                  <span className="user-id">{`@${currentUser.id}`}</span>
+                </div>
+              ) : null}
+                <RoomList
+                  rooms={[...joinedRooms, ...joinableRooms]}
+                  currentRoom={currentRoom}
+                  connectToRoom={this.connectToRoom}
+                  currentUser={currentUser}
+                />
+              <div className="create-room-div">
+                <input
                   type="text"
                   value={newRoom}
                   name="newRoom"
@@ -88,58 +95,63 @@ class Chat extends React.Component {
                   placeholder="Create New Room"
                   onChange={this.handleNewRoom}
                 />
-                <button
-                  onClick={() => this.createRoom().then(room => {
-                    this.setState({
-                      newRoom : ""
+
+                <IconButton
+                  onClick={() =>
+                    this.createRoom().then(room => {
+                      this.setState({
+                        newRoom: "",
+                      });
+                      this.connectToRoom(room.id);
                     })
-                    this.connectToRoom(room.id)
-                  })}
+                  }
                   title={`Create a new Room`}
-                  className="create-room-button"
                 >
-                  +
-                </button>
-          </div>
-        </aside>
-        <section className="chat-screen">
-          <header className="chat-header">
-            {currentRoom ? <h2>{roomName}</h2> : <h2> Select a Room </h2>}
-          </header>
-          <ul className="chat-messages">
-            <ChatSession messages={messages} />
-          </ul>
-          <footer className="chat-footer">
-            <form onSubmit={this.sendMessage} className="message-form">
-              <input
-                type="text"
-                value={newMessage}
-                name="newMessage"
-                className="message-input"
-                placeholder="Type your message and hit ENTER to send"
-                onChange={this.handleMessage}
-                disabled={!currentRoom}
+                  <AddIcon />
+                </IconButton>
+              </div>
+            </aside>
+            <section className="chat-screen">
+              <header className="chat-header">
+                {currentRoom ? <h2>#{roomName}</h2> : <h2> Select a Room </h2>}
+              </header>
+              <ul className="chat-messages">
+                <ChatSession messages={messages} />
+              </ul>
+              <footer className="chat-footer">
+                <form onSubmit={this.sendMessage} className="message-form">
+                  <input
+                    type="text"
+                    value={newMessage}
+                    name="newMessage"
+                    className="message-input"
+                    placeholder="Type your message and hit ENTER to send"
+                    onChange={this.handleMessage}
+                    disabled={!currentRoom}
+                  />
+                  <Speech onChange={this.handleMessage}/>
+                </form>
+              </footer>
+            </section>
+            <aside className="sidebar right-sidebar">
+              {currentRoom ? (
+                <RoomUsers
+                  currentUser={currentUser}
+                  sendDM={this.sendDM}
+                  roomUsers={roomUsers}
+                />
+              ) : null}
+            </aside>
+            {showLogin ? (
+              <Dialog
+                userId={userId}
+                handleInput={this.handleUserId}
+                connectToChatkit={this.connectToChatkit}
               />
-            </form>
-          </footer>
-        </section>
-        <aside className="sidebar right-sidebar">
-          {currentRoom ? (
-            <RoomUsers
-              currentUser={currentUser}
-              sendDM={this.sendDM}
-              roomUsers={roomUsers}
-            />
-          ) : null}
-        </aside>
-        {showLogin ? (
-          <Dialog
-            userId={userId}
-            handleInput={this.handleUserId}
-            connectToChatkit={this.connectToChatkit}
-          />
-        ) : null}
-      </div>
+            ) : null}
+          </div>
+        </Card>
+      </Grid>
     );
   }
 }

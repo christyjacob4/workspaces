@@ -20,11 +20,17 @@
   
   .App {
     width: 100vw;
-    height: 100vh;
+    height: auto;
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 4fr 2fr;
   }
   
+  .sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   .right-sidebar {
     border-left: 1px solid #ccc;
   }
@@ -117,7 +123,7 @@
   .chat-screen {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 86vh;
   }
   
   .chat-header {
@@ -164,6 +170,7 @@
   }
   
   .message-form {
+    display : flex; 
     border-top: 1px solid #ccc;
   }
   
@@ -173,7 +180,7 @@
   }
   
   input[type="text"].message-input {
-    height: 50px;
+    height: 60px;
     border: none;
     padding-left: 20px;
   }
@@ -184,15 +191,9 @@
   .create-room-input{
     flex-grow : 2;
   }
-  .create-room-button{
-    flex-grow:1;
-    font-size: 20px;
-    border: 1px solid #eee;
-    border-radius: 2px;
-    margin-bottom: 0;
-    padding: 0 10px;
-    line-height: 1.4;
-    height: auto;
+
+  .rooms{
+    flex-grow: 2;
   }
   
   /* Dialog

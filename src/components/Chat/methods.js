@@ -62,6 +62,7 @@ function connectToChatkit(event) {
           },
         })
         .then(currentUser => {
+          console.log("[JOINED ROOMS]", currentUser.rooms)
           this.setState({
             currentUser,
             showLogin: false,
@@ -140,9 +141,7 @@ function connectToRoom(id) {
       });
 
       console.log("[INFO]", this.state)
-
-
-      // getRooms(this);
+      getRooms(this);
     })
     .catch(console.error);
 }
