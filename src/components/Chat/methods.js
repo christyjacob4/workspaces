@@ -32,10 +32,10 @@ function connectToChatkit(event) {
   }
 
   axios
-    .post("http://localhost:5200/users", { userId })
+    .post("https://agile-stream-37836.herokuapp.com/users", { userId })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "http://localhost:5200/authenticate",
+        url: "https://agile-stream-37836.herokuapp.com/authenticate",
       });
 
       const chatManager = new Chatkit.ChatManager({
