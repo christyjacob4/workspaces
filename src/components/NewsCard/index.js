@@ -28,9 +28,13 @@ const useStyles = makeStyles(() => ({
     fontWeight: 200,
     fontSize: 12,
   },
+  desc:{
+      textShadow: '0 0 20px rgba(0, 0, 0, 1)',
+  },
   title: {
     color: '#fff',
     letterSpacing: '2px',
+    textShadow: '0 0 20px rgba(0, 0, 0, 1)',
   },
 }));
 
@@ -53,7 +57,7 @@ const NewsCard = ({title, description, author, url, image, time}) => {
             textAlign={'center'}
           >
             <h1 className={styles.title}>{title}</h1>
-            <p>{description}</p>
+            <p className={styles.desc}>{description}</p>
           </Box>
           <Typography className={styles.cta} variant={'overline'}>
             Explore
