@@ -1,9 +1,8 @@
-// client/src/components/RoomUsers.js
+import React from 'react';
+import Proptypes from 'prop-types';
 
-import React from "react";
-
-const ActiveUsers = props => {
-  const { roomUsers, currentUser } = props;
+const RoomUsers = props => {
+  const { roomUsers, sendDM, currentUser } = props;
   const users = roomUsers.map(user => {
     return (
       <li className="room-member" key={user.id}>
@@ -13,6 +12,7 @@ const ActiveUsers = props => {
         </div>
         {currentUser.id !== user.id ? (
           <button
+            onClick={() => sendDM(user.id)}
             title={`Send ${user.name} a direct message`}
             className="send-dm"
           >
@@ -30,5 +30,10 @@ const ActiveUsers = props => {
   );
 };
 
+RoomUsers.propTypes = {
+  roomUsers: Proptypes.array.isRequired,
+  sendDM: Proptypes.func.isRequired,
+  currentUser: Proptypes.object.isRequired,
+};
 
-export default ActiveUsers;
+export default RoomUsers;
