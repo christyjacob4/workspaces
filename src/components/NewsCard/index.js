@@ -45,7 +45,7 @@ const NewsCard = ({title, description, author, url, image, time}) => {
   return (
     <Card className={cx(styles.root, shadowStyles.root)}>
       <CardMedia classes={mediaStyles} image={image} />
-      <CardActionArea>
+      <CardActionArea onClick={() => {window.open(url, "_blank") }}>
         <CardContent className={styles.content}>
           <Box
             display={'flex'}
