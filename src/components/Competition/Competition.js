@@ -33,7 +33,7 @@ const dateOptions = {
   hour: "numeric",
   minute: "numeric",
   second: "numeric",
-  weekday: "short",
+  // weekday: "short",
   year: "numeric",
   month: "short",
   day: "numeric",
@@ -101,6 +101,7 @@ function Competition(props) {
       label: "Duration",
       options: {
         filter: false,
+        display : false,
         customBodyRender: (value, tableMeta, updateValue) =>
           new Date(value).toLocaleString(undefined, dateOptions),
       },
@@ -118,7 +119,7 @@ function Competition(props) {
       name: "end",
       label: "End Time",
       options: {
-        display: false,
+        display: true,
         filter: false,
         customBodyRender: (value, tableMeta, updateValue) =>
           new Date(value).toLocaleString(undefined, dateOptions),
