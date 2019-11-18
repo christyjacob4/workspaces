@@ -32,7 +32,7 @@ const TextCardContent01 = ({title, date, key, link, content}) => {
           heading={title}
           body={content.length > 150 ? `${content.substring(0, 150)}...` : content}
         />
-        <Button key = {key} href={link} className={styles.button}>Read more</Button>
+        <Button key = {key} className={styles.button} onClick={() => {window.open(link, "_blank") }}>Read more</Button>
       </CardContent>
     </Box></center>
   );

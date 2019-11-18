@@ -139,7 +139,7 @@ const Header = ({firebase}) => {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          Workspace Home
+          Workspace
         </Typography>
         <div className={classes.grow} />
         {/* <IconButton
