@@ -137,6 +137,7 @@ function Competition(props) {
       name: "status",
       label: "Status",
       options: {
+        display : false,
         filter: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           
