@@ -7,9 +7,10 @@ import Speech from "./Speech";
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import MicIcon from "@material-ui/icons/Mic";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+
+import { withFirebase } from "../Firebase";
 
 // import 'skeleton-css/css/normalize.css';
 // import 'skeleton-css/css/skeleton.css';
@@ -54,6 +55,23 @@ class Chat extends React.Component {
     this.sendDM = sendDM.bind(this);
   }
 
+  getUserId = () => {
+    if (!this.props.firebase.auth.currentUser) {
+      setTimeout(this.getUserId, 1000);
+      console.log("[INFO] Timeout")  
+    }
+    else {
+      this.setState({
+        userId: this.props.firebase.getCurrentUsername(),
+      },this.connectToChatkit);
+      
+    }
+  };
+
+  componentDidMount() {
+    this.getUserId();
+  }
+
   render() {
     const {
       userId,
@@ -80,12 +98,12 @@ class Chat extends React.Component {
                   <span className="user-id">{`@${currentUser.id}`}</span>
                 </div>
               ) : null}
-                <RoomList
-                  rooms={[...joinedRooms, ...joinableRooms]}
-                  currentRoom={currentRoom}
-                  connectToRoom={this.connectToRoom}
-                  currentUser={currentUser}
-                />
+              <RoomList
+                rooms={[...joinedRooms, ...joinableRooms]}
+                currentRoom={currentRoom}
+                connectToRoom={this.connectToRoom}
+                currentUser={currentUser}
+              />
               <div className="create-room-div">
                 <input
                   type="text"
@@ -129,7 +147,7 @@ class Chat extends React.Component {
                     onChange={this.handleMessage}
                     disabled={!currentRoom}
                   />
-                  <Speech onChange={this.handleMessage}/>
+                  <Speech onChange={this.handleMessage} />
                 </form>
               </footer>
             </section>
@@ -142,13 +160,6 @@ class Chat extends React.Component {
                 />
               ) : null}
             </aside>
-            {showLogin ? (
-              <Dialog
-                userId={userId}
-                handleInput={this.handleUserId}
-                connectToChatkit={this.connectToChatkit}
-              />
-            ) : null}
           </div>
         </Card>
       </Grid>
@@ -156,4 +167,4 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat;
+export default withFirebase(Chat);

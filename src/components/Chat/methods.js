@@ -27,9 +27,8 @@ function handleNewRoom(event) {
   });
 }
 
-function connectToChatkit(event) {
-  event.preventDefault();
-
+function connectToChatkit() {
+  
   const { userId } = this.state;
 
   console.log("[CONNECTING TO CHATKIT]", userId);

@@ -28,12 +28,12 @@ const Speech = ({
     return null;
   }
 
-    recognition.onstart = () => {
-      console.log("Listening has started");
-    };
-    recognition.onend = () => {
-      console.log("Listening has stopped");
-    };
+    // recognition.onstart = () => {
+    //   console.log("Listening has started");
+    // };
+    // recognition.onend = () => {
+    //   console.log("Listening has stopped");
+    // };
 
   recognition.onspeechend = () => {
     console.log("Speech stopped");
