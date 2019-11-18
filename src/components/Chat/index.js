@@ -1,6 +1,5 @@
 import React from "react";
 import ChatSession from "./ChatSession";
-import Dialog from "./Dialog";
 import RoomList from "./RoomList";
 import RoomUsers from "./RoomUsers";
 import Speech from "./Speech";

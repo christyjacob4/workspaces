@@ -1,5 +1,7 @@
 import React from 'react';
 import Proptypes from 'prop-types';
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 const RoomUsers = props => {
   const { roomUsers, sendDM, currentUser } = props;
@@ -11,13 +13,12 @@ const RoomUsers = props => {
           <span>{user.name}</span>
         </div>
         {currentUser.id !== user.id ? (
-          <button
+          <IconButton
             onClick={() => sendDM(user.id)}
             title={`Send ${user.name} a direct message`}
-            className="send-dm"
           >
-            +
-          </button>
+            <AddIcon/>
+          </IconButton>
         ) : null}
       </li>
     );

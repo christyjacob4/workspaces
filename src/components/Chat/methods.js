@@ -162,9 +162,9 @@ function sendMessage(event) {
 }
 
 function createPrivateRoom(id) {
-  const { currentUser, rooms } = this.state;
+  const { currentUser, joinedRooms, joinableRooms } = this.state;
   const roomName = `${currentUser.id}_${id}`;
-
+  let rooms = [...joinedRooms, ...joinableRooms]
   const isPrivateChatCreated = rooms.filter(room => {
     if (room.customData && room.customData.isDirectMessage) {
       const arr = [currentUser.id, id];
