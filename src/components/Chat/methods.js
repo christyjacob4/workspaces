@@ -2,6 +2,7 @@
 
 import Chatkit from "@pusher/chatkit-client";
 import axios from "axios";
+import {config} from "../../helpers/config"
 
 function handleUserId(event) {
   const { value } = event.target;
@@ -39,14 +40,14 @@ function connectToChatkit() {
   }
 
   axios
-    .post("https://agile-stream-37836.herokuapp.com/users", { userId })
+    .post(`${config.herokuUrl}/users`, { userId })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "https://agile-stream-37836.herokuapp.com/authenticate",
+        url: `${config.herokuUrl}/authenticate`,
       });
 
       const chatManager = new Chatkit.ChatManager({
-        instanceLocator: "v1:us1:56165286-1172-4484-9d35-1e8bb8d98038",
+        instanceLocator: config.instanceLocator,
         userId,
         tokenProvider,
       });

@@ -7,8 +7,8 @@ export const config = {
   newsRSS :  "https://news.google.com/rss",
   newsApiKey : "dfc02d7c277b4110a36612966d743b09",
   newsApiTopNews : "https://newsapi.org/v2/top-headlines?country=in",
-  tokenUrl : "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/56165286-1172-4484-9d35-1e8bb8d98038/token",
-  instanceLocator : "v1:us1:56165286-1172-4484-9d35-1e8bb8d98038"
+  instanceLocator : "v1:us1:56165286-1172-4484-9d35-1e8bb8d98038",
+  herokuUrl : "https://agile-stream-37836.herokuapp.com"
 };
 
 export const firebaseConfig = {
