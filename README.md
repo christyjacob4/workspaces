@@ -23,7 +23,7 @@
   <img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/772acea2-5160-40b1-b128-441b0c150ed2/deploy-status" target="[_blank](https://app.netlify.com/sites/web-tech-guide/deploys)" />
 
 </p>
-<h3 align="center">A productivity workspace for coders </h3>
+<h3 align="center">A productivity workspace for programmers, complete with the ability to create and save markdown notes, create chat-rooms and private chats & browse all coding contests</h3>
 
 
 ## 🚀 Usage
