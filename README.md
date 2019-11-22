@@ -24,6 +24,8 @@
 </p>
 <h3 align="center">A productivity workspace for programmers, complete with the ability to create and save markdown notes, create chat-rooms and private chats & browse all coding contests</h3>
 
+<h2 align="center">Check out the demo at <a href="https://workspaces.netlify.com/">https://workspaces.netlify.com/</h2>
+
 ## Tech Stack
 <p align="center">
 
