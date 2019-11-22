@@ -1,7 +1,7 @@
 
-<h1 align="center">Web Tech Docs 📔</h1>
+<h1 align="center">Workspaces</h1>
 <p align = center>
-    <img alt="Project Logo" src="https://image.flaticon.com/icons/svg/1149/1149168.svg" target="_blank" width = 120 height = 120 />
+    <img alt="Project Logo" src="https://image.flaticon.com/icons/svg/123/123583.svg" target="_blank" width = 120 height = 120 />
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
   <img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/772acea2-5160-40b1-b128-441b0c150ed2/deploy-status" target="[_blank](https://app.netlify.com/sites/web-tech-guide/deploys)" />
 
 </p>
-<h3 align="center">A website to serve as a reference material for anyone undertaking the web technologies course. </h3>
+<h3 align="center">A productivity workspace for coders </h3>
 
 
 ## 🚀 Usage
