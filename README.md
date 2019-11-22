@@ -12,7 +12,7 @@
 
   <!-- <img alt="Version" src="https://img.shields.io/badge/version-1.0-success?style=for-the-badge&logo=coderwall" target="_blank" /> -->
 
-  <a href="https://github.com/christyjacob4/web-tech-docs/blob/master/LICENSE">
+  <a href="https://github.com/christyjacob4/workspaces/blob/master/LICENSE">
     <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-success.svg?style=for-the-badge&logo=gitter" target="_blank" />
   </a>
 
@@ -23,6 +23,8 @@
 
 </p>
 <h3 align="center">A productivity workspace for programmers, complete with the ability to create and save markdown notes, create chat-rooms and private chats & browse all coding contests</h3>
+
+## Tech Stack
 
 
 ## 🚀 Usage
@@ -62,14 +64,6 @@ npm start
     <img alt = "Attach Screenshot"src="screenshots/test5.png" width="700">
 </p>
 
-<!-- ## 📖 Features
-
-- [x] Basic to Advanced JS Concepts
-- [x] 
-- [x] Mark tasks as completed
-- [x] Dark Mode
-- [x] Firebase Support  -->
-
 
 ## 🍻 Contributing
 
@@ -95,6 +89,6 @@ Please ⭐️ this repository if this project helped you!
 ## 📝 License
 
 Copyright © 2019 [Christy Jacob](https://github.com/christyjacob4).<br />
-This project is [MIT](https://github.com/christyjacob4/web-tech-docs/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/christyjacob4/workspaces/blob/master/LICENSE) licensed.
 
 ---
