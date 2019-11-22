@@ -37,7 +37,7 @@
 <img alt="Material-ui" src="https://material-ui.com/static/images/material-ui-logo.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px" />
   <img alt="Netlify" src="https://www.netlify.com/img/press/logos/full-logo-light.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px"/>
 </p>
-<h3 align="cent
+
 ## 🚀 Usage
 
 * ### Clone the repository
