@@ -25,8 +25,19 @@
 <h3 align="center">A productivity workspace for programmers, complete with the ability to create and save markdown notes, create chat-rooms and private chats & browse all coding contests</h3>
 
 ## Tech Stack
+<p align="center">
 
+<img alt="Firebase" src="https://firebase.google.com/downloads/brand-guidelines/SVG/logo-built_black.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px" />
+  <img alt="React" src="https://cdn.worldvectorlogo.com/logos/react.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px"/>
+  <img alt="Chatkit" src="https://d21buns5ku92am.cloudfront.net/67967/images/293624-chatkit_logo-0bb022-medium-1539767767.png" target="_blank" height="100px" style="margin-left:10px;margin-right:10px"/>
+  <img alt="Nodejs" src="https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px" />
 
+<img alt="Heroku" src="https://cdn.worldvectorlogo.com/logos/heroku.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px"/>
+
+<img alt="Material-ui" src="https://material-ui.com/static/images/material-ui-logo.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px" />
+  <img alt="Netlify" src="https://www.netlify.com/img/press/logos/full-logo-light.svg" target="_blank" height="100px" style="margin-left:10px;margin-right:10px"/>
+</p>
+<h3 align="cent
 ## 🚀 Usage
 
 * ### Clone the repository
@@ -42,7 +53,7 @@ npm install
 
 * ### Start developement Server
 ```sh
-npm start
+npm run start
 ```
 
 ## ✨ Screenshots
