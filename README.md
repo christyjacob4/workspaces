@@ -19,8 +19,7 @@
   <a href="https://twitter.com/christyjacob4">
     <img alt="Twitter: Christy Jacob" src="https://img.shields.io/twitter/follow/christyjacob4?label=Follow%20%40christyjacob4&style=for-the-badge&logo=twitter" target="_blank" />
   </a>
-
-  <img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/772acea2-5160-40b1-b128-441b0c150ed2/deploy-status" target="[_blank](https://app.netlify.com/sites/web-tech-guide/deploys)" />
+  <img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/21cace6a-690e-4206-936b-f16f50a1f6c9/deploy-status" target="[_blank](https://app.netlify.com/sites/workspaces/deploys)" />
 
 </p>
 <h3 align="center">A productivity workspace for programmers, complete with the ability to create and save markdown notes, create chat-rooms and private chats & browse all coding contests</h3>
@@ -46,8 +45,21 @@ npm start
 
 ## ✨ Screenshots
 
+
 <p align="center">
-    <img alt = "Attach Screenshot"src="demo-img/demo.png" width="700">
+    <img alt = "Attach Screenshot"src="screenshots/test3.png" width="700">
+</p>
+<p align="center">
+    <img alt = "Attach Screenshot"src="screenshots/test2.png" width="700">
+</p>
+<p align="center">
+    <img alt = "Attach Screenshot"src="screenshots/test1.png" width="700">
+</p>
+<p align="center">
+    <img alt = "Attach Screenshot"src="screenshots/test.png" width="700">
+</p>
+<p align="center">
+    <img alt = "Attach Screenshot"src="screenshots/test5.png" width="700">
 </p>
 
 <!-- ## 📖 Features
