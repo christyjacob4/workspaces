@@ -8,7 +8,7 @@
 
 <img alt="Vue" src="https://img.shields.io/badge/platform-react-brightgreen?style=for-the-badge&logo=react" target="_blank" />
 
-  <img alt="Latest Commit" src="https://img.shields.io/github/last-commit/christyjacob4/react-todoist?logo=git&style=for-the-badge" target="_blank" />
+  <img alt="Latest Commit" src="https://img.shields.io/github/last-commit/christyjacob4/workspaces?logo=git&style=for-the-badge" target="_blank" />
 
   <!-- <img alt="Version" src="https://img.shields.io/badge/version-1.0-success?style=for-the-badge&logo=coderwall" target="_blank" /> -->
 
@@ -30,18 +30,18 @@
 
 * ### Clone the repository
 ```sh
-git clone https://github.com/christyjacob4/web-tech-docs/
-cd web-tech-docs
+git clone https://github.com/christyjacob4/workspaces
+cd workspaces
 ```
 
 * ### Install dependencies
 ```sh
-yarn add -D vuepress
+npm install 
 ```
 
 * ### Start developement Server
 ```sh
-yarn docs:dev
+npm start
 ```
 
 ## ✨ Screenshots

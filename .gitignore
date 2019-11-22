@@ -6,6 +6,8 @@
 .pnp.js
 .idea/
 .env/
+.theia
+.netlify
 
 # testing
 /coverage
