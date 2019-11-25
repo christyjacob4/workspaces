@@ -90,10 +90,15 @@ Feel free to check [issues page](https://github.com/christyjacob4/web-tech-docs/
 
 ## 👤 Author
 
-**Christy Jacob**
+**Anish M Rao**
+- Github: [@anishmrao](https://github.com/anishmrao)
 
+**Christy Jacob**
 - Twitter: [@christyjacob4](https://twitter.com/christyjacob4)
 - Github: [@christyjacob4](https://github.com/christyjacob4)
+
+**Anmol Garg**
+- Github: [@AnmolGarg2002](https://github.com/AnmolGarg2002)
 
 ## 🤝 Acknowledgements
 - Icons by [Flaticon](https://www.flaticon.com/)
