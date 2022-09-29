@@ -34,7 +34,7 @@
     "react-syntax-highlighter": "^11.0.2",
     "react-toastify": "^5.3.2",
     "react-typist": "^2.0.5",
-    "recharts": "^1.6.2",
+    "recharts": "^2.1.14",
     "remark-toc": "^6.0.0",
     "rss-parser": "^3.7.3",
     "skeleton-css": "^2.0.4",
